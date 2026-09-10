@@ -36,11 +36,25 @@
     .tool-card { background: var(--card); border-radius: 14px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
 
     /* Upload Zone */
-    .dropzone { border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 10px; padding: 30px 15px; text-align: center; cursor: pointer; transition: 0.2s; margin-bottom: 22px; }
+    .dropzone { border: 2px dashed #93c5fd; background: #eff6ff; border-radius: 10px; padding: 25px 15px; text-align: center; cursor: pointer; transition: 0.2s; margin-bottom: 22px; }
     .dropzone:hover { background: #dbeafe; border-color: var(--primary); }
     .dropzone-icon { font-size: 38px; margin-bottom: 8px; }
     .dropzone p { font-size: 15px; font-weight: 600; color: var(--text); }
     .dropzone span { font-size: 13px; color: var(--muted); }
+    
+    /* Uploaded Live Preview */
+    .upload-preview-img {
+      max-width: 170px;
+      max-height: 170px;
+      border-radius: 8px;
+      margin: 10px auto 6px auto;
+      display: none;
+      object-fit: contain;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+      border: 1px solid var(--border);
+      background: #ffffff;
+    }
+
     input[type="file"] { display: none; }
 
     /* Quick Preset Buttons */
@@ -57,9 +71,38 @@
     .target-input-group input { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 16px; font-weight: bold; }
     .target-input-group span { font-size: 14px; font-weight: 600; color: var(--muted); }
 
-    /* Action Button */
-    .action-btn { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    /* Action Button with Loading Spinner */
+    .action-btn { 
+      width: 100%; 
+      background: var(--primary); 
+      color: white; 
+      border: none; 
+      padding: 14px; 
+      border-radius: 8px; 
+      font-size: 16px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.2s; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
     .action-btn:hover { background: var(--primary-dark); }
+    .action-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+    
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
     /* Result Area */
     .result-section { display: none; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
@@ -116,7 +159,8 @@
     
     <!-- Upload Dropzone -->
     <div class="dropzone" onclick="document.getElementById('fileInput').click()">
-      <div class="dropzone-icon">📷</div>
+      <div class="dropzone-icon" id="dropzoneIcon">📷</div>
+      <img id="inputPreviewImg" class="upload-preview-img" alt="चुनी गई फ़ोटो">
       <p id="uploadTitle">फ़ोटो या सिग्नेचर चुनने के लिए यहाँ टैप करें</p>
       <span id="fileDetails">JPG, JPEG या PNG फ़ाइल चुनें</span>
       <input type="file" id="fileInput" accept="image/*">
@@ -139,7 +183,11 @@
       </div>
     </div>
 
-    <button class="action-btn" onclick="processImage()">फ़ोटो कंप्रेस करें</button>
+    <!-- Action Button with Loading Effect -->
+    <button class="action-btn" id="actionBtn" onclick="processImage()">
+      <div class="spinner" id="btnSpinner"></div>
+      <span id="btnText">फ़ोटो कंप्रेस करें</span>
+    </button>
 
     <!-- Results -->
     <div class="result-section" id="resultBlock">
@@ -151,7 +199,7 @@
         <img id="outPreview" alt="Compressed Preview">
       </div>
       <br>
-      <a id="downloadBtn" class="download-btn" download="photo_ready.jpg">तैयार फ़ोटो डाउनलोड करें</a>
+      <a id="downloadBtn" class="download-btn" download="photo_ready.jpg">तैयार फ़ोटो डाउनलोड करें 📥</a>
     </div>
 
   </div>
@@ -207,9 +255,8 @@
   <!-- Contact Us Section -->
   <div class="content-card" id="contact">
     <h2>Contact Us (संपर्क करें)</h2>
-    <p>यदि आपके पास टूल के संबंध में कोई सुझाव, तकनीकी समस्या या सहायता की आवश्यकता है, तो आप हमें सीधे आधिकारिक ईमेल या फ़ोन नंबर पर संपर्क कर सकते हैं:</p>
+    <p>यदि आपके पास टूल के संबंध में कोई सुझाव, तकनीकी समस्या या सहायता की आवश्यकता है, तो आप हमें सीधे आधिकारिक सपोर्ट ईमेल पर संपर्क कर सकते हैं:</p>
     <p><strong>आधिकारिक सपोर्ट ईमेल:</strong> <a href="mailto:photoresizerstore@gmail.com" style="color:var(--primary); font-weight:600;">photoresizerstore@gmail.com</a></p>
-    <p><strong>हेल्पलाइन नंबर:</strong> <a href="tel:7088785630" style="color:var(--primary); font-weight:600;">+91 70887 85630</a></p>
     <p>हम सामान्यतः 24 से 48 कार्य घंटों के भीतर सभी प्रश्नों का उत्तर देने का प्रयास करते हैं।</p>
   </div>
 
@@ -225,14 +272,28 @@
 
 <script>
   let activeFile = null;
+  let activeImageSrc = null;
 
   document.getElementById('fileInput').addEventListener('change', function(e) {
     if (e.target.files.length > 0) {
       activeFile = e.target.files[0];
       const kb = (activeFile.size / 1024).toFixed(1);
+
       document.getElementById('uploadTitle').innerText = '✅ चुनी गई: ' + activeFile.name;
-      document.getElementById('fileDetails').innerText = 'मूल साइज़: ' + kb + ' KB';
+      document.getElementById('fileDetails').innerText = 'मूल साइज़: ' + kb + ' KB (बदलने के लिए फिर टैप करें)';
       document.getElementById('origStat').innerText = 'मूल साइज़: ' + kb + ' KB';
+      document.getElementById('resultBlock').style.display = 'none';
+
+      // लाइव इमेज प्रिव्यू दिखाना
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        activeImageSrc = event.target.result;
+        const previewEl = document.getElementById('inputPreviewImg');
+        previewEl.src = activeImageSrc;
+        previewEl.style.display = 'block';
+        document.getElementById('dropzoneIcon').style.display = 'none';
+      };
+      reader.readAsDataURL(activeFile);
     }
   });
 
@@ -243,17 +304,25 @@
   }
 
   function processImage() {
-    if (!activeFile) { 
+    if (!activeFile || !activeImageSrc) { 
       alert('कृपया पहले एक फ़ोटो या सिग्नेचर चुनें!'); 
       return; 
     }
 
     const targetKb = parseFloat(document.getElementById('targetKb').value) || 50;
-    const reader = new FileReader();
+    const btn = document.getElementById('actionBtn');
+    const spinner = document.getElementById('btnSpinner');
+    const btnText = document.getElementById('btnText');
 
-    reader.onload = function(e) {
+    // लोडिंग शुरू
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btnText.innerText = 'कंप्रेस हो रहा है...';
+
+    // 500 मिलीसेकंड का डिले ताकि लोडिंग स्पष्ट दिखाई दे
+    setTimeout(() => {
       const img = new Image();
-      img.src = e.target.result;
+      img.src = activeImageSrc;
 
       img.onload = function() {
         const canvas = document.createElement('canvas');
@@ -286,8 +355,8 @@
           canvas.toBlob(function(blob) {
             const currentKb = blob.size / 1024;
 
-            if (currentKb > targetKb && quality > 0.12) {
-              quality -= 0.07;
+            if (currentKb > targetKb && quality > 0.10) {
+              quality -= 0.08;
               compressLoop();
             } else {
               const url = URL.createObjectURL(blob);
@@ -298,16 +367,24 @@
               dl.href = url;
               dl.download = 'PhotoResizer_' + activeFile.name.replace(/\.[^/.]+$/, "") + ".jpg";
 
-              document.getElementById('resultBlock').style.display = 'block';
+              // रिज़ल्ट दिखाना
+              const resBlock = document.getElementById('resultBlock');
+              resBlock.style.display = 'block';
+
+              // बटन रीसेट
+              btn.disabled = false;
+              spinner.style.display = 'none';
+              btnText.innerText = 'फ़ोटो कंप्रेस करें';
+
+              // स्मूथ स्क्रॉल
+              resBlock.scrollIntoView({ behavior: 'smooth' });
             }
           }, 'image/jpeg', quality);
         }
 
         compressLoop();
       };
-    };
-
-    reader.readAsDataURL(activeFile);
+    }, 500);
   }
 </script>
 
