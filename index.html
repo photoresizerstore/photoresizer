@@ -211,3 +211,11 @@ margin-top:8px;
 font-size:12px;
 }
 </style>
+<input type="file" id="file" accept="image/*" hidden>
+
+<div id="result" style="display:none">
+  <img id="preview" style="width:100%;border-radius:12px;margin:15px 0">
+  <p><b>Original:</b> <span id="old"></span> KB</p>
+  <p><b>Compressed:</b> <span id="new"></span> KB</p>
+  <a id="download" class="upload-btn">⬇ Download</a>
+</div>
