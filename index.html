@@ -219,3 +219,32 @@ font-size:12px;
   <p><b>Compressed:</b> <span id="new"></span> KB</p>
   <a id="download" class="upload-btn">⬇ Download</a>
 </div>
+<script>
+const file=document.getElementById("file");
+document.querySelector(".upload-btn").onclick=()=>file.click();
+
+file.onchange=e=>{
+ const f=e.target.files[0];
+ if(!f) return;
+
+ const img=new Image();
+ img.src=URL.createObjectURL(f);
+
+ img.onload=()=>{
+   const c=document.createElement("canvas");
+   const x=c.getContext("2d");
+   c.width=img.width;
+   c.height=img.height;
+   x.drawImage(img,0,0);
+
+   c.toBlob(b=>{
+     document.getElementById("preview").src=URL.createObjectURL(b);
+     document.getElementById("old").innerText=(f.size/1024).toFixed(1);
+     document.getElementById("new").innerText=(b.size/1024).toFixed(1);
+     document.getElementById("download").href=URL.createObjectURL(b);
+     document.getElementById("download").download="PhotoResizer.jpg";
+     document.getElementById("result").style.display="block";
+   },"image/jpeg",0.6);
+ };
+};
+</script>
