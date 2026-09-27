@@ -12,8 +12,8 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Screenshot Editor Online - स्क्रीनशॉट ब्लर, ब्लैकआउट व मार्क करें</title>
-  <meta name="description" content="मुफ़्त ऑनलाइन स्क्रीनशॉट एडिटर। स्क्रीनशॉट से फोन नंबर व बैंक बैलेंस ब्लैकआउट करें, तीर व लाल घेरा लगाएं और तुरंत सेव करें।">
+  <title>Screenshot Text & Number Changer - स्क्रीनशॉट में टेक्स्ट और नंबर बदलें</title>
+  <meta name="description" content="स्क्रीनशॉट में पुराना टेक्स्ट, स्पेलिंग या नंबर बदलें बिना किसी निशान या व्हाइटनर के। स्मार्ट बैकग्राउंड ब्लेंडिंग के साथ नया टेक्स्ट लिखें।">
   <link rel="canonical" href="https://photoresizer.store/screenshot-editor.html">
   <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
 
@@ -25,7 +25,7 @@
       --surface: #FFFFFF;
       --text: #0F172A;
       --muted: #64748B;
-      --border: #E2E8F0;
+      --border: #CBD5E1;
       --brand-blue: #0056D2;
       --success: #10B981;
     }
@@ -45,13 +45,13 @@
     .brand span { color: #34D399; }
     .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
 
-    .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
+    .container { max-width: 1150px; margin: 25px auto; padding: 0 15px; }
 
-    .tool-header { text-align: center; margin-bottom: 25px; }
-    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
-    .tool-header p { font-size: 14px; color: var(--muted); }
+    .tool-header { text-align: center; margin-bottom: 20px; }
+    .tool-header h1 { font-size: 24px; font-weight: 800; color: #1E293B; margin-bottom: 4px; }
+    .tool-header p { font-size: 13px; color: var(--muted); }
 
-    .studio-box {
+    .editor-layout {
       background: var(--surface);
       border-radius: 16px;
       border: 1px solid var(--border);
@@ -59,70 +59,124 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
 
-    .toolbar-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
+    /* Modern Control Deck */
+    .controls-deck {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
       background: #F1F5F9;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 15px;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      align-items: center;
     }
-    .tool-btn {
-      background: #fff;
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 6px;
+
+    .btn-main-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
     }
-    .tool-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-main-action:hover { background: var(--primary-hover); }
 
-    .canvas-container {
+    .input-box-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .input-box-wrap label { font-size: 11px; font-weight: 700; color: var(--muted); }
+    .input-box-wrap input, .input-box-wrap select {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .pill-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pill-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* Canvas Viewport */
+    .canvas-viewport {
       background: #E2E8F0;
-      border-radius: 10px;
-      min-height: 400px;
+      border-radius: 12px;
+      min-height: 450px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: auto;
       padding: 15px;
-      cursor: crosshair;
+      position: relative;
     }
-    #screenCanvas {
-      max-width: 100%;
+    #screenshotCanvas {
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
       border-radius: 4px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
       background: #fff;
       display: none;
+      cursor: crosshair;
     }
+    .upload-callout {
+      text-align: center;
+      cursor: pointer;
+      padding: 40px 20px;
+    }
+    .upload-callout svg { width: 56px; height: 56px; fill: var(--primary); margin-bottom: 10px; }
 
-    .bottom-actions {
+    .bottom-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 15px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
     }
-    .btn-save {
+    .btn-download-final {
       background: var(--success);
       color: #fff;
-      text-decoration: none;
-      padding: 12px 28px;
+      border: none;
+      padding: 11px 26px;
       border-radius: 8px;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+    .guide-box {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+    .guide-box h4 { color: #1D4ED8; margin-bottom: 6px; }
+    .guide-box ol { padding-left: 20px; line-height: 1.6; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 30px; }
   </style>
 </head>
 <body>
@@ -136,84 +190,166 @@
 
   <div class="container">
     <div class="tool-header">
-      <h1>🖍️ Screenshot Editor & Privacy Redactor</h1>
-      <p>स्क्रीनशॉट से निजी जानकारी (नंबर, नाम, बैलेंस) छिपाएं, लाल घेरा लगाएं और तुरंत सुरक्षित शेयर करें।</p>
+      <h1>✍️ Screenshot Text & Number Changer</h1>
+      <p>स्क्रीनशॉट में पुराना नंबर या शब्द हटाएं और बिल्कुल नैचुरल बैकग्राउंड के साथ नया टेक्स्ट टाइप करें।</p>
     </div>
 
-    <div class="studio-box">
-      <!-- Toolbar -->
-      <div class="toolbar-row">
-        <button class="tool-btn" onclick="document.getElementById('screenFileInput').click()">📁 स्क्रीनशॉट चुनें</button>
-        <button class="tool-btn active" id="btnBlackout" onclick="setMode('blackout')">⬛ ब्लैकआउट (Hide Info)</button>
-        <button class="tool-btn" id="btnRedBox" onclick="setMode('redbox')">🟥 लाल घेरा (Highlight)</button>
-        <button class="tool-btn" onclick="resetScreenshot()">↺ रीसेट</button>
+    <div class="editor-layout">
+      <!-- File Selector -->
+      <div class="row-actions">
+        <button class="btn-main-action" onclick="document.getElementById('screenFileInput').click()">📁 स्क्रीनशॉट अपलोड करें</button>
+        <button class="pill-btn active" id="btnReplaceMode" onclick="setMode('replace')">🎯 1-Click Select & Replace</button>
+        <button class="pill-btn" id="btnColorPick" onclick="setMode('pick_text_color')">💉 Pick Font Color</button>
+        <button class="pill-btn" onclick="undoStep()">↩ Undo</button>
+        <button class="pill-btn" onclick="resetCanvas()">↺ Reset</button>
+      </div>
+
+      <!-- Controls Deck for Typing & Tuning -->
+      <div class="controls-deck">
+        <div class="input-box-wrap">
+          <label>नया टेक्स्ट या नंबर टाइप करें:</label>
+          <input type="text" id="replacementText" value="₹5,000" placeholder="उदा. ₹5,000 या 9876...">
+        </div>
+
+        <div class="input-box-wrap" style="max-width: 110px;">
+          <label>फॉन्ट साइज़ (px):</label>
+          <input type="number" id="fontSize" value="22" min="8" max="140">
+        </div>
+
+        <div class="input-box-wrap" style="max-width: 140px;">
+          <label>फॉन्ट स्टाइल (Weight):</label>
+          <select id="fontWeight">
+            <option value="bold">Bold (मोटा)</option>
+            <option value="600">Semi-Bold</option>
+            <option value="normal">Normal (हल्का)</option>
+          </select>
+        </div>
+
+        <div class="input-box-wrap" style="max-width: 120px;">
+          <label>टेक्स्ट का रंग:</label>
+          <input type="color" id="textColor" value="#1E293B">
+        </div>
+
+        <div class="input-box-wrap" style="max-width: 140px;">
+          <label>फॉन्ट प्रकार:</label>
+          <select id="fontFamily">
+            <option value="-apple-system, BlinkMacSystemFont, Roboto, sans-serif">Mobile UI / UPI App</option>
+            <option value="Arial, sans-serif">Arial (Standard)</option>
+            <option value="'Courier New', monospace">Monospace (Digits)</option>
+          </select>
+        </div>
       </div>
 
       <!-- Canvas Stage -->
-      <div class="canvas-container" id="canvasWrapper">
-        <div id="uploadPrompt" onclick="document.getElementById('screenFileInput').click()" style="text-align:center; cursor:pointer;">
-          <h4>स्क्रीनशॉट अपलोड करने के लिए यहाँ क्लिक करें</h4>
-          <p style="font-size:12px; color:var(--muted);">PNG, JPG (मोबाइल या कंप्यूटर स्क्रीनशॉट)</p>
+      <div class="canvas-viewport">
+        <div class="upload-callout" id="uploadPlaceholder" onclick="document.getElementById('screenFileInput').click()">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
+          <h3>स्क्रीनशॉट चुनने के लिए यहाँ क्लिक करें</h3>
+          <p style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG (UPI, बिल, मार्कशीट या चैट स्क्रीनशॉट)</p>
         </div>
-        <canvas id="screenCanvas"></canvas>
+        <canvas id="screenshotCanvas"></canvas>
         <input type="file" id="screenFileInput" accept="image/*" style="display:none;">
       </div>
 
-      <!-- Action Row -->
-      <div class="bottom-actions">
-        <span style="font-size:12px; color:var(--muted);">*स्क्रीनशॉट पर माउस या उंगली से ड्रैग करके बॉक्स बनाएं।</span>
-        <button class="btn-save" onclick="downloadEditedScreenshot()">एडिटेड स्क्रीनशॉट डाउनलोड करें 📥</button>
+      <!-- Bottom Bar -->
+      <div class="bottom-bar">
+        <span style="font-size:12px; color:var(--muted);" id="statusHelp">
+          💡 <b>Select & Replace चालू है:</b> जिस पुराने नंबर या स्पेलिंग को बदलना है, उसके ऊपर माउस या उंगली से एक छोटा बॉक्स बनाएं।
+        </span>
+        <button class="btn-download-final" onclick="downloadEdited()">एडिटेड स्क्रीनशॉट डाउनलोड करें 📥</button>
       </div>
     </div>
+        <!-- User Guide -->
+    <div class="guide-box">
+      <h4>💡 बिना व्हाइटनर या निशान के टेक्स्ट कैसे बदलें?</h4>
+      <ol>
+        <li><b>नया टेक्स्ट लिखें:</b> ऊपर दिए गए बॉक्स में वह नया नंबर या स्पेलिंग लिख लें जो आपको चाहिए (जैसे <i>₹5,000</i>)।</li>
+        <li><b>पुराने टेक्स्ट पर बॉक्स बनाएं:</b> स्क्रीनशॉट में जिस पुराने नंबर को बदलना है, उसके ऊपर उंगली या माउस फेरकर एक छोटा बॉक्स बना दें।</li>
+        <li><b>ऑटो स्मार्ट-फिल:</b> हमारा टूल स्क्रीनशॉट के बैकग्राउंड के रंगों को मिलाकर पुराने नंबर को पूरी तरह गायब कर देगा और बिना किसी व्हाइट पैच के नया नंबर तुरंत वहीं टाइप कर देगा!</li>
+        <li><b>कलर व साइज एडजस्ट करें:</b> यदि फॉन्ट बड़ा या छोटा लगे, तो ऊपर से साइज और कलर तुरंत सेट कर सकते हैं।</li>
+      </ol>
+    </div>
   </div>
-    <footer>
+
+  <footer>
     © 2026 PhotoResizer.store | All rights reserved.
   </footer>
 
   <script>
-    let uploadedImg = null;
-    let canvas = document.getElementById('screenCanvas');
+    let canvas = document.getElementById('screenshotCanvas');
     let ctx = canvas.getContext('2d');
-    let mode = 'blackout'; // 'blackout' or 'redbox'
-    let isDrawing = false;
-    let startX = 0, startY = 0;
-    let snapshot = null;
+    let loadedImg = null;
+    let originalFileName = "screenshot_edited.png";
 
+    let activeMode = 'replace'; // 'replace' or 'pick_text_color'
+    let isSelecting = false;
+    let startX = 0, startY = 0;
+    let currentBox = null;
+    let undoStack = [];
+
+    // File Input Listener
     document.getElementById('screenFileInput').addEventListener('change', function(e) {
       if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
+        originalFileName = "edited_" + file.name;
         const reader = new FileReader();
         reader.onload = function(evt) {
-          uploadedImg = new Image();
-          uploadedImg.onload = function() {
-            canvas.width = uploadedImg.width;
-            canvas.height = uploadedImg.height;
-            ctx.drawImage(uploadedImg, 0, 0);
+          loadedImg = new Image();
+          loadedImg.onload = function() {
+            canvas.width = loadedImg.width;
+            canvas.height = loadedImg.height;
+            ctx.drawImage(loadedImg, 0, 0);
 
-            document.getElementById('uploadPrompt').style.display = 'none';
+            document.getElementById('uploadPlaceholder').style.display = 'none';
             canvas.style.display = 'block';
+            saveState();
           };
-          uploadedImg.src = evt.target.result;
+          loadedImg.src = evt.target.result;
         };
         reader.readAsDataURL(file);
       }
     });
 
-    function setMode(newMode) {
-      mode = newMode;
-      document.getElementById('btnBlackout').classList.toggle('active', mode === 'blackout');
-      document.getElementById('btnRedBox').classList.toggle('active', mode === 'redbox');
-    }
+    function setMode(mode) {
+      activeMode = mode;
+      document.getElementById('btnReplaceMode').classList.toggle('active', mode === 'replace');
+      document.getElementById('btnColorPick').classList.toggle('active', mode === 'pick_text_color');
 
-    function resetScreenshot() {
-      if (uploadedImg) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(uploadedImg, 0, 0);
+      const help = document.getElementById('statusHelp');
+      if (mode === 'replace') {
+        canvas.style.cursor = 'crosshair';
+        help.innerHTML = "💡 <b>Select & Replace:</b> जिस पुराने नंबर या स्पेलिंग को बदलना है, उसके ऊपर बॉक्स बनाएं।";
+      } else {
+        canvas.style.cursor = 'copy';
+        help.innerHTML = "💉 <b>Pick Font Color:</b> स्क्रीनशॉट के किसी भी अक्षर पर टच करें ताकि फॉन्ट का रंग 100% मैच हो जाए।";
       }
     }
 
-    // Touch & Mouse Drawing
-    function getCanvasCoords(e) {
+    function saveState() {
+      if (undoStack.length >= 10) undoStack.shift();
+      undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    }
+
+    function undoStep() {
+      if (undoStack.length > 1) {
+        undoStack.pop();
+        const prev = undoStack[undoStack.length - 1];
+        ctx.putImageData(prev, 0, 0);
+      } else if (undoStack.length === 1 && loadedImg) {
+        ctx.drawImage(loadedImg, 0, 0);
+      }
+    }
+
+    function resetCanvas() {
+      if (loadedImg) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(loadedImg, 0, 0);
+        undoStack = [];
+        saveState();
+      }
+    }
+
+    function getCoords(e) {
       const rect = canvas.getBoundingClientRect();
       const scaleX = canvas.width / rect.width;
       const scaleY = canvas.height / rect.height;
@@ -225,55 +361,108 @@
       };
     }
 
-    function startDraw(e) {
-      if (!uploadedImg) return;
-      isDrawing = true;
-      const coords = getCanvasCoords(e);
-      startX = coords.x;
-      startY = coords.y;
-      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    }
+    function handleStart(e) {
+      if (!loadedImg) return;
+      const pos = getCoords(e);
 
-    function draw(e) {
-      if (!isDrawing) return;
-      e.preventDefault();
-      const coords = getCanvasCoords(e);
-      ctx.putImageData(snapshot, 0, 0);
-
-      const w = coords.x - startX;
-      const h = coords.y - startY;
-
-      if (mode === 'blackout') {
-        ctx.fillStyle = '#0F172A';
-        ctx.fillRect(startX, startY, w, h);
-      } else if (mode === 'redbox') {
-        ctx.strokeStyle = '#EF4444';
-        ctx.lineWidth = Math.max(3, canvas.width / 250);
-        ctx.strokeRect(startX, startY, w, h);
+      if (activeMode === 'pick_text_color') {
+        // Pick exact font color from image
+        const pixel = ctx.getImageData(pos.x, pos.y, 1, 1).data;
+        const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
+        document.getElementById('textColor').value = hex;
+        setMode('replace');
+        alert("✅ फॉन्ट रंग पिक कर लिया गया है! अब पुराने नंबर पर बॉक्स बनाएं।");
+        return;
       }
+
+      isSelecting = true;
+      startX = pos.x;
+      startY = pos.y;
     }
 
-    function stopDraw() {
-      isDrawing = false;
+    function handleMove(e) {
+      if (!isSelecting || activeMode !== 'replace') return;
+      e.preventDefault();
+      const pos = getCoords(e);
+      currentBox = {
+        x: Math.min(startX, pos.x),
+        y: Math.min(startY, pos.y),
+        w: Math.abs(pos.x - startX),
+        h: Math.abs(pos.y - startY)
+      };
     }
 
-    canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('mousemove', draw);
-    window.addEventListener('mouseup', stopDraw);
+    function handleEnd() {
+      if (!isSelecting) return;
+      isSelecting = false;
 
-    canvas.addEventListener('touchstart', startDraw, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    window.addEventListener('touchend', stopDraw);
+      if (currentBox && currentBox.w > 4 && currentBox.h > 4) {
+        executeSeamlessReplace(currentBox);
+      }
+      currentBox = null;
+    }
 
-    function downloadEditedScreenshot() {
-      if (!uploadedImg) {
+    // Smart Infill without Whitener / Flat Patches
+    function executeSeamlessReplace(box) {
+      // Sample edge background colors (top, bottom, left, right)
+      const sampleMargin = 2;
+      const topSampleY = Math.max(0, box.y - sampleMargin);
+      const bottomSampleY = Math.min(canvas.height - 1, box.y + box.h + sampleMargin);
+
+      const topPixel = ctx.getImageData(box.x + box.w / 2, topSampleY, 1, 1).data;
+      const bottomPixel = ctx.getImageData(box.x + box.w / 2, bottomSampleY, 1, 1).data;
+
+      const topColor = `rgb(${topPixel[0]}, ${topPixel[1]}, ${topPixel[2]})`;
+      const bottomColor = `rgb(${bottomPixel[0]}, ${bottomPixel[1]}, ${bottomPixel[2]})`;
+
+      // Create natural vertical gradient patch matching the screenshot's exact background
+      const grad = ctx.createLinearGradient(0, box.y, 0, box.y + box.h);
+      grad.addColorStop(0, topColor);
+      grad.addColorStop(1, bottomColor);
+
+      ctx.fillStyle = grad;
+      // Seamless fill completely removing the old text
+      ctx.fillRect(box.x - 1, box.y - 1, box.w + 2, box.h + 2);
+
+      // Now draw the replacement text perfectly inside the box
+      const newText = document.getElementById('replacementText').value;
+      const fSize = parseInt(document.getElementById('fontSize').value) || 22;
+      const fWeight = document.getElementById('fontWeight').value;
+      const fColor = document.getElementById('textColor').value;
+      const fFamily = document.getElementById('fontFamily').value;
+
+      ctx.font = `${fWeight} ${fSize}px ${fFamily}`;
+      ctx.fillStyle = fColor;
+      ctx.textBaseline = "middle";
+
+      // Center the new text vertically and horizontally inside the replaced area
+      const textMetrics = ctx.measureText(newText);
+      const drawX = box.x + (box.w - textMetrics.width) / 2;
+      const drawY = box.y + (box.h / 2);
+
+      ctx.fillText(newText, drawX, drawY);
+
+      saveState();
+    }
+
+    // Listeners
+    canvas.addEventListener('mousedown', handleStart);
+    canvas.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+
+    canvas.addEventListener('touchstart', handleStart, { passive: false });
+    canvas.addEventListener('touchmove', handleMove, { passive: false });
+    window.addEventListener('touchend', handleEnd);
+
+    function downloadEdited() {
+      if (!loadedImg) {
         alert("कृपया पहले स्क्रीनशॉट अपलोड करें!");
         document.getElementById('screenFileInput').click();
         return;
       }
       const link = document.createElement('a');
-      link.download = "Edited_Screenshot.png";
-      link.href = canvas.toDataURL("image/png");
+      link.download = originalFileName;
+      link.href = canvas.toDataURL('image/png');
       link.click();
     }
   </script>
