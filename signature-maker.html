@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signature Maker & Resizer - सरकारी फ़ॉर्म हेतु साफ़ व डार्क सिग्नेचर बनाएं</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन सिग्नेचर क्लीनर व रिसाइजर टूल। कागज़ का पीलापन हटाएं, सिग्नेचर को गहरा काला करें और 10KB से 20KB में डाउनलोड करें।">
+  <link rel="canonical" href="https://photoresizer.store/signature-maker.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    /* Left Stage */
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .upload-hint svg { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 8px; }
+    .upload-hint h4 { font-size: 15px; font-weight: 700; }
+    .upload-hint p { font-size: 12px; color: var(--muted); }
+
+    #sigCanvas {
+      max-width: 100%;
+      max-height: 220px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      display: none;
+      background: #fff;
+    }
+
+    /* Right Controls */
+    .controls-deck { display: flex; flex-direction: column; gap: 16px; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group input[type="range"] { width: 100%; accent-color: var(--primary); }
+    .control-group input[type="number"], .control-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-clean {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-clean:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>✍️ Signature Maker & Enhancer</h1>
+      <p>मोबाइल से खींचे गए सिग्नेचर का पीलापन हटाएं, लिखावट को गहरा काला करें और 20KB में बदलें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Left Screen -->
+      <div class="preview-stage" onclick="document.getElementById('sigInput').click()">
+        <div class="upload-hint" id="uploadHint">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <h4 id="fileStatus">सिग्नेचर फोटो अपलोड करें</h4>
+          <p>सादे कागज़ पर किए गए हस्ताक्षर की फोटो चुनें</p>
+        </div>
+        <canvas id="sigCanvas"></canvas>
+        <input type="file" id="sigInput" accept="image/*" style="display:none;">
+      </div>
+            <!-- Right Controls -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>कंट्रास्ट / डार्कनेस (लिखावट गहरी करें):</label>
+          <input type="range" id="thresholdRange" min="110" max="220" value="160" oninput="processSignature()">
+          <span style="font-size:11px; color:var(--muted);">स्लाइडर हिलाकर लिखावट को मनचाहा गहरा करें।</span>
+        </div>
+
+        <div class="control-group">
+          <label>स्याही का रंग (Ink Color):</label>
+          <select id="inkColor" onchange="processSignature()">
+            <option value="black">गहरा काला (Deep Black - फॉर्म हेतु मानक)</option>
+            <option value="blue">नीला (Royal Blue)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>टारगेट साइज़ सीमा (KB):</label>
+          <input type="number" id="targetKb" value="20" min="5" max="50">
+          <span style="font-size:11px; color:var(--muted);">SSC, पुलिस व अन्य फॉर्म के लिए 10 से 20 KB आवश्यक है।</span>
+        </div>
+
+        <button class="btn-clean" onclick="processSignature()">सिग्नेचर प्रोसेस करें ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="sizeOutput" style="font-weight:700; color:#065F46;">सिग्नेचर तैयार है!</p>
+          <a id="downloadLink" class="btn-download" download="clean_signature.jpg">डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Guidelines -->
+    <div class="info-card">
+      <h3>सरकारी नौकरी फॉर्म हेतु सिग्नेचर के नियम:</h3>
+      <table>
+        <thead>
+          <tr><th>बोर्ड / परीक्षा</th><th>अनुमति साइज़ सीमा</th><th>स्याही का प्रकार</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SSC (कर्मचारी चयन आयोग)</td><td>10 KB से 20 KB</td><td>काली या नीली स्याही</td></tr>
+          <tr><td>UP Police भर्ती</td><td>5 KB से 20 KB</td><td>काली स्याही से सफ़ेद कागज़ पर</td></tr>
+          <tr><td>रेलवे भर्ती (RRB)</td><td>10 KB से 20 KB</td><td>साफ़ लिखावट, बिना धुंधलेपन के</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let originalFileName = "signature.jpg";
+
+    document.getElementById('sigInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalFileName = file.name;
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            processSignature();
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function processSignature() {
+      if (!uploadedImg) {
+        alert("कृपया पहले सिग्नेचर की फोटो चुनें!");
+        document.getElementById('sigInput').click();
+        return;
+      }
+
+      const canvas = document.getElementById('sigCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // Standardize size
+      let w = uploadedImg.width;
+      let h = uploadedImg.height;
+      if (w > 800) {
+        h = Math.round((h * 800) / w);
+        w = 800;
+      }
+
+      canvas.width = w;
+      canvas.height = h;
+      ctx.drawImage(uploadedImg, 0, 0, w, h);
+
+      // Contrast / Threshold algorithm
+      const threshold = parseInt(document.getElementById('thresholdRange').value);
+      const ink = document.getElementById('inkColor').value;
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const d = imgData.data;
+
+      for (let i = 0; i < d.length; i += 4) {
+        let avg = (d[i] + d[i+1] + d[i+2]) / 3;
+        if (avg > threshold) {
+          // Pure White Background
+          d[i] = 255; d[i+1] = 255; d[i+2] = 255;
+        } else {
+          // Sharp Ink
+          if (ink === 'black') {
+            d[i] = 10; d[i+1] = 10; d[i+2] = 10;
+          } else {
+            d[i] = 15; d[i+1] = 50; d[i+2] = 160;
+          }
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+
+      document.getElementById('uploadHint').style.display = 'none';
+      canvas.style.display = 'block';
+
+      // Compress to target KB
+      const targetKb = parseFloat(document.getElementById('targetKb').value) || 20;
+      let quality = 0.92;
+
+      function compressLoop() {
+        canvas.toBlob(function(blob) {
+          const sizeKb = blob.size / 1024;
+          if (sizeKb > targetKb && quality > 0.1) {
+            quality -= 0.08;
+            compressLoop();
+          } else {
+            const url = URL.createObjectURL(blob);
+            const dl = document.getElementById('downloadLink');
+            dl.href = url;
+            dl.download = "Signature_" + targetKb + "KB_" + originalFileName;
+
+            document.getElementById('sizeOutput').innerText = `🎉 सिग्नेचर तैयार है! (साइज: ${sizeKb.toFixed(1)} KB)`;
+            document.getElementById('resultBox').style.display = 'block';
+          }
+        }, 'image/jpeg', quality);
+      }
+      compressLoop();
+    }
+  </script>
+</body>
+</html>
