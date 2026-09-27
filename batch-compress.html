@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batch Image Compressor - एक साथ कई फोटो कंप्रेस करें और ZIP डाउनलोड करें</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन मल्टीपल इमेज कंप्रेसर। एक साथ 10, 20 फोटो को 20KB, 50KB में कंप्रेस करें और सिंगल ZIP फाइल में तुरंत डाउनलोड करें।">
+  <link rel="canonical" href="https://photoresizer.store/batch-compress.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <!-- JSZip Engine for instant ZIP packaging -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .upload-zone {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .upload-zone svg { width: 55px; height: 55px; fill: var(--primary); margin-bottom: 10px; }
+    .upload-zone h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .upload-zone p { font-size: 13px; color: var(--muted); }
+
+    .controls-row {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+    .preset-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .custom-input { display: flex; align-items: center; gap: 8px; }
+    .custom-input input {
+      width: 90px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .btn-batch-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-batch-action:hover { background: var(--primary-hover); }
+
+    .file-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .file-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .file-status { color: var(--success); font-weight: 700; }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .btn-download-zip {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>📦 Batch Image Compressor (Multiple Files)</h1>
+      <p>एक साथ कई फोटो चुनें, एक क्लिक में निश्चित KB में कंप्रेस करें और ZIP फाइल डाउनलोड करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Upload Stage -->
+      <div class="upload-zone" onclick="document.getElementById('multiInput').click()">
+        <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+        <h4 id="uploadTitle">एक साथ कई फोटो चुनने के लिए यहाँ टैप करें</h4>
+        <p>एक साथ 2 से 30 फोटो (JPG, PNG, WEBP) सेलेक्ट कर सकते हैं</p>
+        <input type="file" id="multiInput" accept="image/*" multiple style="display:none;">
+      </div>
+            <!-- Settings Row -->
+      <div class="controls-row">
+        <div>
+          <span style="font-size:13px; font-weight:700; margin-right:10px;">टारगेट साइज़ चुनें:</span>
+          <span class="preset-chips">
+            <button class="chip" onclick="setBatchKb(20, this)">20 KB</button>
+            <button class="chip active" onclick="setBatchKb(50, this)">50 KB</button>
+            <button class="chip" onclick="setBatchKb(100, this)">100 KB</button>
+          </span>
+        </div>
+
+        <div class="custom-input">
+          <label style="font-size:13px; font-weight:700;">कस्टम KB:</label>
+          <input type="number" id="targetKb" value="50" min="5" max="500">
+        </div>
+
+        <button class="btn-batch-action" id="processBtn" onclick="processAllBatch()">सभी कंप्रेस करें ⚡</button>
+      </div>
+
+      <!-- Live File List -->
+      <div class="file-list" id="fileListContainer"></div>
+
+      <!-- Final ZIP Download Box -->
+      <div class="result-box" id="resultBox">
+        <h4 style="color:#065F46; font-size:16px;">🎉 सभी फोटो सफलतापूर्वक कंप्रेस हो गई हैं!</h4>
+        <p id="summaryText" style="font-size:13px; color:#047857; margin:6px 0;"></p>
+        <a id="downloadZipBtn" class="btn-download-zip" download="Compressed_Photos.zip">ZIP फाइल डाउनलोड करें 📦</a>
+      </div>
+    </div>
+
+    <!-- Info Table -->
+    <div class="info-card">
+      <h3>बैच कंप्रेशन का उपयोग क्यों करें?</h3>
+      <table>
+        <thead>
+          <tr><th>विशेषता</th><th>फायदा</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>समय की बचत</td><td>10-20 फोटो को अलग-अलग अपलोड करने के बजाय 5 सेकंड में एक साथ कंप्रेस करें।</td></tr>
+          <tr><td>सिंगल ZIP डाउनलोड</td><td>एक ही फोल्डर में सभी फोटो सुरक्षित तरीके से डाउनलोड हो जाती हैं।</td></tr>
+          <tr><td>डेटा व प्राइवेसी सुरक्षा</td><td>सभी फोटो आपके डिवाइस पर प्रोसेस होती हैं, कोई भी फोटो सर्वर पर नहीं जाती।</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let selectedFiles = [];
+
+    document.getElementById('multiInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        selectedFiles = Array.from(e.target.files);
+        document.getElementById('uploadTitle').innerText = `✅ ${selectedFiles.length} फोटो चुनी गई हैं`;
+
+        const container = document.getElementById('fileListContainer');
+        container.innerHTML = '';
+
+        selectedFiles.forEach((file, index) => {
+          const item = document.createElement('div');
+          item.className = 'file-item';
+          const kb = (file.size / 1024).toFixed(1);
+          item.innerHTML = `
+            <span><b>${file.name.substring(0, 16)}...</b> (${kb} KB)</span>
+            <span class="file-status" id="status-${index}">वेटिंग...</span>
+          `;
+          container.appendChild(item);
+        });
+      }
+    });
+
+    function setBatchKb(kb, btn) {
+      document.getElementById('targetKb').value = kb;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    async function processAllBatch() {
+      if (selectedFiles.length === 0) {
+        alert("कृपया पहले मल्टीपल फोटो सेलेक्ट करें!");
+        document.getElementById('multiInput').click();
+        return;
+      }
+
+      const targetKb = parseFloat(document.getElementById('targetKb').value) || 50;
+      const processBtn = document.getElementById('processBtn');
+      processBtn.disabled = true;
+      processBtn.innerText = "प्रोसेस हो रहा है...";
+
+      const zip = new JSZip();
+      const folder = zip.folder("Compressed_Photos");
+
+      let totalSaved = 0;
+
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        document.getElementById(`status-${i}`).innerText = "कंप्रेसिंग...";
+
+        const compressedBlob = await compressSingleFile(file, targetKb);
+        folder.file(file.name.replace(/\.[^/.]+$/, "") + `_${targetKb}KB.jpg`, compressedBlob);
+
+        document.getElementById(`status-${i}`).innerText = `✔ ${(compressedBlob.size / 1024).toFixed(1)} KB`;
+      }
+
+      // Generate ZIP
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(zipBlob);
+
+      const dl = document.getElementById('downloadZipBtn');
+      dl.href = url;
+      dl.download = `PhotoResizer_Batch_${targetKb}KB.zip`;
+
+      document.getElementById('summaryText').innerText = `कुल ${selectedFiles.length} फोटो कंप्रेस करके ZIP फाइल तैयार कर दी गई है।`;
+      document.getElementById('resultBox').style.display = 'block';
+
+      processBtn.disabled = false;
+      processBtn.innerText = "सभी कंप्रेस करें ⚡";
+    }
+
+    function compressSingleFile(file, targetKb) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+
+            let quality = 0.92;
+            function loop() {
+              canvas.toBlob(blob => {
+                const currentKb = blob.size / 1024;
+                if (currentKb > targetKb && quality > 0.1) {
+                  quality -= 0.08;
+                  loop();
+                } else {
+                  resolve(blob);
+                }
+              }, 'image/jpeg', quality);
+            }
+            loop();
+          };
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
