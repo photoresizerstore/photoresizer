@@ -12,8 +12,8 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Screenshot Text & Number Changer - स्क्रीनशॉट में टेक्स्ट और नंबर बदलें</title>
-  <meta name="description" content="स्क्रीनशॉट में पुराना टेक्स्ट, स्पेलिंग या नंबर बदलें बिना किसी निशान या व्हाइटनर के। स्मार्ट बैकग्राउंड ब्लेंडिंग के साथ नया टेक्स्ट लिखें।">
+  <title>Screenshot Pro Editor - टेक्स्ट व नंबर बदलें बिना किसी निशान के</title>
+  <meta name="description" content="स्क्रीनशॉट में पुराना नंबर या स्पेलिंग बदलें। नेचुरल क्लोन पैच और ड्रैगेबल टेक्स्ट के साथ 100% रियल फिनिश।">
   <link rel="canonical" href="https://photoresizer.store/screenshot-editor.html">
   <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
 
@@ -21,11 +21,12 @@
     :root {
       --primary: #0066FF;
       --primary-hover: #0052cc;
-      --bg: #F8FAFC;
-      --surface: #FFFFFF;
-      --text: #0F172A;
-      --muted: #64748B;
-      --border: #CBD5E1;
+      --bg: #0F172A;
+      --surface: #1E293B;
+      --panel: #334155;
+      --text: #F8FAFC;
+      --muted: #94A3B8;
+      --border: #475569;
       --brand-blue: #0056D2;
       --success: #10B981;
     }
@@ -36,7 +37,7 @@
     header {
       background: var(--brand-blue);
       color: #fff;
-      padding: 14px 24px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -45,138 +46,158 @@
     .brand span { color: #34D399; }
     .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
 
-    .container { max-width: 1150px; margin: 25px auto; padding: 0 15px; }
+    .main-wrap { max-width: 1250px; margin: 15px auto; padding: 0 15px; }
 
-    .tool-header { text-align: center; margin-bottom: 20px; }
-    .tool-header h1 { font-size: 24px; font-weight: 800; color: #1E293B; margin-bottom: 4px; }
-    .tool-header p { font-size: 13px; color: var(--muted); }
-
-    .editor-layout {
+    .studio-container {
       background: var(--surface);
       border-radius: 16px;
       border: 1px solid var(--border);
-      padding: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
-
-    /* Modern Control Deck */
-    .controls-deck {
+      padding: 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      background: #F1F5F9;
-      padding: 14px;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .studio-container { grid-template-columns: 1fr; }
+    }
+
+    /* Left Stage Viewport */
+    .viewport-box {
+      background: #0B1120;
+      border: 1.5px dashed var(--border);
       border-radius: 12px;
-      margin-bottom: 16px;
-      align-items: center;
-    }
-
-    .btn-main-action {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .btn-main-action:hover { background: var(--primary-hover); }
-
-    .input-box-wrap { display: flex; flex-direction: column; gap: 4px; }
-    .input-box-wrap label { font-size: 11px; font-weight: 700; color: var(--muted); }
-    .input-box-wrap input, .input-box-wrap select {
-      padding: 8px 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 13px;
-      background: #fff;
-    }
-
-    .row-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .pill-btn {
-      background: #fff;
-      border: 1px solid var(--border);
-      padding: 7px 14px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .pill-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-    /* Canvas Viewport */
-    .canvas-viewport {
-      background: #E2E8F0;
-      border-radius: 12px;
-      min-height: 450px;
+      min-height: 480px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: auto;
-      padding: 15px;
+      padding: 20px;
       position: relative;
     }
-    #screenshotCanvas {
-      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-      border-radius: 4px;
+
+    .canvas-stage-wrapper {
+      position: relative;
+      display: inline-block;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    #screenCanvas {
+      display: block;
       background: #fff;
-      display: none;
       cursor: crosshair;
     }
-    .upload-callout {
-      text-align: center;
-      cursor: pointer;
-      padding: 40px 20px;
-    }
-    .upload-callout svg { width: 56px; height: 56px; fill: var(--primary); margin-bottom: 10px; }
 
-    .bottom-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
+    /* Floating Draggable Live Text Box */
+    .floating-text-box {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      border: 1.5px dashed var(--primary);
+      padding: 2px 6px;
+      cursor: move;
+      user-select: none;
+      display: none;
+      z-index: 10;
+      white-space: nowrap;
+      background: rgba(255,255,255,0.1);
     }
-    .btn-download-final {
-      background: var(--success);
-      color: #fff;
-      border: none;
-      padding: 11px 26px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
+    .floating-text-box.active {
+      border-color: #38BDF8;
+      box-shadow: 0 0 10px rgba(56,189,248,0.4);
+    }
+
+    /* Right Control Deck */
+    .control-deck {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-panel {
+      background: var(--panel);
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .panel-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #38BDF8;
+      margin-bottom: 10px;
+      display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .guide-box {
-      background: #EFF6FF;
-      border: 1px solid #BFDBFE;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 20px;
-      font-size: 13px;
+    .action-btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-tool {
+      flex: 1;
+      min-width: 100px;
+      background: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.15s;
     }
-    .guide-box h4 { color: #1D4ED8; margin-bottom: 6px; }
-    .guide-box ol { padding-left: 20px; line-height: 1.6; }
+    .btn-tool.active, .btn-tool:hover { background: var(--primary); border-color: var(--primary); }
 
-    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 30px; }
+    .input-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .input-row label { font-size: 11px; font-weight: 700; color: var(--muted); }
+    .input-row input, .input-row select {
+      background: #1E293B;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn-apply-text {
+      width: 100%;
+      background: #3B82F6;
+      color: #fff;
+      border: none;
+      padding: 11px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-apply-text:hover { background: #2563EB; }
+
+    .btn-download-now {
+      width: 100%;
+      background: var(--success);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+    }
+
+    .help-box {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 10px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+    }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -188,86 +209,103 @@
     <a href="index.html" class="home-link">← सभी टूल्स</a>
   </header>
 
-  <div class="container">
-    <div class="tool-header">
-      <h1>✍️ Screenshot Text & Number Changer</h1>
-      <p>स्क्रीनशॉट में पुराना नंबर या शब्द हटाएं और बिल्कुल नैचुरल बैकग्राउंड के साथ नया टेक्स्ट टाइप करें।</p>
+  <div class="main-wrap">
+    <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <h2 style="font-size:20px; font-weight:800;">✍️ Screenshot Pro Text & Number Editor</h2>
+        <p style="font-size:12px; color:var(--muted);">पुराने नंबर या स्पेलिंग को नेचुरल क्लोन से हटाएं और ड्रैगेबल टेक्स्ट से बदलें।</p>
+      </div>
+      <button class="btn-tool" onclick="document.getElementById('fileUpload').click()" style="background:var(--primary); padding:8px 18px;">
+        📁 नया स्क्रीनशॉट चुनें
+      </button>
+      <input type="file" id="fileUpload" accept="image/*" style="display:none;">
     </div>
 
-    <div class="editor-layout">
-      <!-- File Selector -->
-      <div class="row-actions">
-        <button class="btn-main-action" onclick="document.getElementById('screenFileInput').click()">📁 स्क्रीनशॉट अपलोड करें</button>
-        <button class="pill-btn active" id="btnReplaceMode" onclick="setMode('replace')">🎯 1-Click Select & Replace</button>
-        <button class="pill-btn" id="btnColorPick" onclick="setMode('pick_text_color')">💉 Pick Font Color</button>
-        <button class="pill-btn" onclick="undoStep()">↩ Undo</button>
-        <button class="pill-btn" onclick="resetCanvas()">↺ Reset</button>
-      </div>
-
-      <!-- Controls Deck for Typing & Tuning -->
-      <div class="controls-deck">
-        <div class="input-box-wrap">
-          <label>नया टेक्स्ट या नंबर टाइप करें:</label>
-          <input type="text" id="replacementText" value="₹5,000" placeholder="उदा. ₹5,000 या 9876...">
+    <div class="studio-container">
+      <!-- Main Stage -->
+      <div class="viewport-box">
+        <div id="emptyBox" onclick="document.getElementById('fileUpload').click()" style="text-align:center; cursor:pointer;">
+          <svg style="width:50px; height:50px; fill:#3B82F6; margin-bottom:10px;" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
+          <h4>यहाँ क्लिक करके स्क्रीनशॉट लोड करें</h4>
+          <p style="font-size:12px; color:var(--muted); margin-top:4px;">UPI रिसिप्ट, बैंक स्टेटमेंट, चैट या मार्कशीट</p>
         </div>
 
-        <div class="input-box-wrap" style="max-width: 110px;">
-          <label>फॉन्ट साइज़ (px):</label>
-          <input type="number" id="fontSize" value="22" min="8" max="140">
-        </div>
-
-        <div class="input-box-wrap" style="max-width: 140px;">
-          <label>फॉन्ट स्टाइल (Weight):</label>
-          <select id="fontWeight">
-            <option value="bold">Bold (मोटा)</option>
-            <option value="600">Semi-Bold</option>
-            <option value="normal">Normal (हल्का)</option>
-          </select>
-        </div>
-
-        <div class="input-box-wrap" style="max-width: 120px;">
-          <label>टेक्स्ट का रंग:</label>
-          <input type="color" id="textColor" value="#1E293B">
-        </div>
-
-        <div class="input-box-wrap" style="max-width: 140px;">
-          <label>फॉन्ट प्रकार:</label>
-          <select id="fontFamily">
-            <option value="-apple-system, BlinkMacSystemFont, Roboto, sans-serif">Mobile UI / UPI App</option>
-            <option value="Arial, sans-serif">Arial (Standard)</option>
-            <option value="'Courier New', monospace">Monospace (Digits)</option>
-          </select>
+        <div class="canvas-stage-wrapper" id="stageWrapper" style="display:none;">
+          <canvas id="screenCanvas"></canvas>
+          <!-- Draggable floating layer -->
+          <div class="floating-text-box" id="floatingLayer">₹5,000</div>
         </div>
       </div>
 
-      <!-- Canvas Stage -->
-      <div class="canvas-viewport">
-        <div class="upload-callout" id="uploadPlaceholder" onclick="document.getElementById('screenFileInput').click()">
-          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
-          <h3>स्क्रीनशॉट चुनने के लिए यहाँ क्लिक करें</h3>
-          <p style="font-size:12px; color:var(--muted); margin-top:4px;">PNG, JPG (UPI, बिल, मार्कशीट या चैट स्क्रीनशॉट)</p>
+      <!-- Control Sidebar -->
+      <div class="control-deck">
+        <!-- Step 1: Clone / Clean -->
+        <div class="card-panel">
+          <div class="panel-title">1️⃣ Clean Old Text (पुराना टेक्स्ट हटाएं)</div>
+          <div class="action-btn-row">
+            <button class="btn-tool active" id="btnCloneMode" onclick="setEditorMode('clean')">
+              🧹 Clean Box (ड्रैग करके मिटाएं)
+            </button>
+            <button class="btn-tool" onclick="undoClean()">↩ Undo</button>
+          </div>
+          <p style="font-size:11px; color:var(--muted); margin-top:8px;">
+            जिस पुराने नंबर/शब्द को हटाना है, उसके ऊपर छोटा बॉक्स बनाएं। बैकग्राउंड ऑटोमैटिक ब्लेंड हो जाएगा (व्हाइटनर नहीं दिखेगा)।
+          </p>
         </div>
-        <canvas id="screenshotCanvas"></canvas>
-        <input type="file" id="screenFileInput" accept="image/*" style="display:none;">
-      </div>
+                <!-- Step 2: Add New Replacement Text -->
+        <div class="card-panel">
+          <div class="panel-title">2️⃣ Add New Text / Number (नया लिखें)</div>
+          
+          <div class="input-row">
+            <label>नया टेक्स्ट या नंबर:</label>
+            <input type="text" id="typeTextInput" value="₹5,000" oninput="updateFloatingText()">
+          </div>
 
-      <!-- Bottom Bar -->
-      <div class="bottom-bar">
-        <span style="font-size:12px; color:var(--muted);" id="statusHelp">
-          💡 <b>Select & Replace चालू है:</b> जिस पुराने नंबर या स्पेलिंग को बदलना है, उसके ऊपर माउस या उंगली से एक छोटा बॉक्स बनाएं।
-        </span>
-        <button class="btn-download-final" onclick="downloadEdited()">एडिटेड स्क्रीनशॉट डाउनलोड करें 📥</button>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="input-row">
+              <label>फॉन्ट साइज़ (px):</label>
+              <input type="number" id="fontSizeInput" value="24" min="8" max="150" oninput="updateFloatingText()">
+            </div>
+            <div class="input-row">
+              <label>फॉन्ट स्टाइल:</label>
+              <select id="fontWeightInput" onchange="updateFloatingText()">
+                <option value="bold">Bold (मोटा)</option>
+                <option value="600">Semi-Bold</option>
+                <option value="normal">Normal</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="input-row">
+              <label>टेक्स्ट का रंग:</label>
+              <input type="color" id="textColorInput" value="#0F172A" onchange="updateFloatingText()">
+            </div>
+            <div class="input-row">
+              <label>रंग पिक करें:</label>
+              <button type="button" class="btn-tool" onclick="setEditorMode('pick_color')" style="padding:6px; font-size:11px;">
+                💉 Pick Color
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-apply-text" onclick="bakeTextToCanvas()">
+            ✅ Apply & Lock Text (यहाँ सेट करें)
+          </button>
+        </div>
+
+        <!-- Download Action -->
+        <button class="btn-download-now" onclick="downloadResult()">
+          एडिटेड स्क्रीनशॉट डाउनलोड करें 📥
+        </button>
+
+        <div class="help-box">
+          <b>🎯 काम करने का आसान तरीका:</b><br>
+          1. <b>Clean Box:</b> पुराने नंबर पर बॉक्स बनाकर उसे गायब करें।<br>
+          2. <b>Drag:</b> नए नंबर को उंगली/माउस से खींचकर सही जगह पर सेट करें।<br>
+          3. <b>Apply:</b> सेट होने पर 'Apply' दबाएं और डाउनलोड करें!
+        </div>
       </div>
-    </div>
-        <!-- User Guide -->
-    <div class="guide-box">
-      <h4>💡 बिना व्हाइटनर या निशान के टेक्स्ट कैसे बदलें?</h4>
-      <ol>
-        <li><b>नया टेक्स्ट लिखें:</b> ऊपर दिए गए बॉक्स में वह नया नंबर या स्पेलिंग लिख लें जो आपको चाहिए (जैसे <i>₹5,000</i>)।</li>
-        <li><b>पुराने टेक्स्ट पर बॉक्स बनाएं:</b> स्क्रीनशॉट में जिस पुराने नंबर को बदलना है, उसके ऊपर उंगली या माउस फेरकर एक छोटा बॉक्स बना दें।</li>
-        <li><b>ऑटो स्मार्ट-फिल:</b> हमारा टूल स्क्रीनशॉट के बैकग्राउंड के रंगों को मिलाकर पुराने नंबर को पूरी तरह गायब कर देगा और बिना किसी व्हाइट पैच के नया नंबर तुरंत वहीं टाइप कर देगा!</li>
-        <li><b>कलर व साइज एडजस्ट करें:</b> यदि फॉन्ट बड़ा या छोटा लगे, तो ऊपर से साइज और कलर तुरंत सेट कर सकते हैं।</li>
-      </ol>
     </div>
   </div>
 
@@ -276,22 +314,24 @@
   </footer>
 
   <script>
-    let canvas = document.getElementById('screenshotCanvas');
+    let canvas = document.getElementById('screenCanvas');
     let ctx = canvas.getContext('2d');
-    let loadedImg = null;
-    let originalFileName = "screenshot_edited.png";
+    let floatingLayer = document.getElementById('floatingLayer');
+    let stageWrapper = document.getElementById('stageWrapper');
 
-    let activeMode = 'replace'; // 'replace' or 'pick_text_color'
+    let loadedImg = null;
+    let fileName = "edited_screenshot.png";
+    let editorMode = 'clean'; // 'clean' or 'pick_color'
+
     let isSelecting = false;
     let startX = 0, startY = 0;
-    let currentBox = null;
-    let undoStack = [];
+    let undoHistory = [];
 
-    // File Input Listener
-    document.getElementById('screenFileInput').addEventListener('change', function(e) {
+    // File Upload
+    document.getElementById('fileUpload').addEventListener('change', function(e) {
       if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
-        originalFileName = "edited_" + file.name;
+        fileName = "edited_" + file.name;
         const reader = new FileReader();
         reader.onload = function(evt) {
           loadedImg = new Image();
@@ -300,9 +340,12 @@
             canvas.height = loadedImg.height;
             ctx.drawImage(loadedImg, 0, 0);
 
-            document.getElementById('uploadPlaceholder').style.display = 'none';
-            canvas.style.display = 'block';
+            document.getElementById('emptyBox').style.display = 'none';
+            stageWrapper.style.display = 'inline-block';
+            floatingLayer.style.display = 'block';
+
             saveState();
+            updateFloatingText();
           };
           loadedImg.src = evt.target.result;
         };
@@ -310,46 +353,31 @@
       }
     });
 
-    function setMode(mode) {
-      activeMode = mode;
-      document.getElementById('btnReplaceMode').classList.toggle('active', mode === 'replace');
-      document.getElementById('btnColorPick').classList.toggle('active', mode === 'pick_text_color');
-
-      const help = document.getElementById('statusHelp');
-      if (mode === 'replace') {
-        canvas.style.cursor = 'crosshair';
-        help.innerHTML = "💡 <b>Select & Replace:</b> जिस पुराने नंबर या स्पेलिंग को बदलना है, उसके ऊपर बॉक्स बनाएं।";
-      } else {
-        canvas.style.cursor = 'copy';
-        help.innerHTML = "💉 <b>Pick Font Color:</b> स्क्रीनशॉट के किसी भी अक्षर पर टच करें ताकि फॉन्ट का रंग 100% मैच हो जाए।";
-      }
-    }
-
     function saveState() {
-      if (undoStack.length >= 10) undoStack.shift();
-      undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+      if (undoHistory.length >= 8) undoHistory.shift();
+      undoHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     }
 
-    function undoStep() {
-      if (undoStack.length > 1) {
-        undoStack.pop();
-        const prev = undoStack[undoStack.length - 1];
+    function undoClean() {
+      if (undoHistory.length > 1) {
+        undoHistory.pop();
+        const prev = undoHistory[undoHistory.length - 1];
         ctx.putImageData(prev, 0, 0);
-      } else if (undoStack.length === 1 && loadedImg) {
+      } else if (undoHistory.length === 1 && loadedImg) {
         ctx.drawImage(loadedImg, 0, 0);
       }
     }
 
-    function resetCanvas() {
-      if (loadedImg) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(loadedImg, 0, 0);
-        undoStack = [];
-        saveState();
+    function setEditorMode(mode) {
+      editorMode = mode;
+      document.getElementById('btnCloneMode').classList.toggle('active', mode === 'clean');
+      if (mode === 'pick_color') {
+        alert("स्क्रीनशॉट के किसी भी अक्षर पर क्लिक करें जिसका रंग आपको कॉपी करना है।");
       }
     }
 
-    function getCoords(e) {
+    // Coordinates mapping
+    function getCanvasPos(e) {
       const rect = canvas.getBoundingClientRect();
       const scaleX = canvas.width / rect.width;
       const scaleY = canvas.height / rect.height;
@@ -361,17 +389,25 @@
       };
     }
 
-    function handleStart(e) {
-      if (!loadedImg) return;
-      const pos = getCoords(e);
+    // Canvas Events for Inpainting / Color Pick
+    canvas.addEventListener('mousedown', onPointerDown);
+    canvas.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
 
-      if (activeMode === 'pick_text_color') {
-        // Pick exact font color from image
+    canvas.addEventListener('touchstart', onPointerDown, { passive: false });
+    canvas.addEventListener('touchmove', onPointerMove, { passive: false });
+    window.addEventListener('touchend', onPointerUp);
+
+    function onPointerDown(e) {
+      if (!loadedImg) return;
+      const pos = getCanvasPos(e);
+
+      if (editorMode === 'pick_color') {
         const pixel = ctx.getImageData(pos.x, pos.y, 1, 1).data;
         const hex = "#" + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
-        document.getElementById('textColor').value = hex;
-        setMode('replace');
-        alert("✅ फॉन्ट रंग पिक कर लिया गया है! अब पुराने नंबर पर बॉक्स बनाएं।");
+        document.getElementById('textColorInput').value = hex;
+        updateFloatingText();
+        setEditorMode('clean');
         return;
       }
 
@@ -380,10 +416,11 @@
       startY = pos.y;
     }
 
-    function handleMove(e) {
-      if (!isSelecting || activeMode !== 'replace') return;
+    let currentBox = null;
+    function onPointerMove(e) {
+      if (!isSelecting || editorMode !== 'clean') return;
       e.preventDefault();
-      const pos = getCoords(e);
+      const pos = getCanvasPos(e);
       currentBox = {
         x: Math.min(startX, pos.x),
         y: Math.min(startY, pos.y),
@@ -392,76 +429,135 @@
       };
     }
 
-    function handleEnd() {
+    function onPointerUp() {
       if (!isSelecting) return;
       isSelecting = false;
-
       if (currentBox && currentBox.w > 4 && currentBox.h > 4) {
-        executeSeamlessReplace(currentBox);
+        cleanBoxNatural(currentBox);
       }
       currentBox = null;
     }
 
-    // Smart Infill without Whitener / Flat Patches
-    function executeSeamlessReplace(box) {
-      // Sample edge background colors (top, bottom, left, right)
-      const sampleMargin = 2;
-      const topSampleY = Math.max(0, box.y - sampleMargin);
-      const bottomSampleY = Math.min(canvas.height - 1, box.y + box.h + sampleMargin);
+    // Natural Seamless Texture Patch (No Whitener)
+    function cleanBoxNatural(box) {
+      const topY = Math.max(0, box.y - 2);
+      const bottomY = Math.min(canvas.height - 1, box.y + box.h + 2);
 
-      const topPixel = ctx.getImageData(box.x + box.w / 2, topSampleY, 1, 1).data;
-      const bottomPixel = ctx.getImageData(box.x + box.w / 2, bottomSampleY, 1, 1).data;
+      const topData = ctx.getImageData(box.x, topY, box.w, 1).data;
+      const bottomData = ctx.getImageData(box.x, bottomY, box.w, 1).data;
 
-      const topColor = `rgb(${topPixel[0]}, ${topPixel[1]}, ${topPixel[2]})`;
-      const bottomColor = `rgb(${bottomPixel[0]}, ${bottomPixel[1]}, ${bottomPixel[2]})`;
+      const topR = topData[0], topG = topData[1], topB = topData[2];
+      const botR = bottomData[0], botG = bottomData[1], botB = bottomData[2];
 
-      // Create natural vertical gradient patch matching the screenshot's exact background
       const grad = ctx.createLinearGradient(0, box.y, 0, box.y + box.h);
-      grad.addColorStop(0, topColor);
-      grad.addColorStop(1, bottomColor);
+      grad.addColorStop(0, `rgb(${topR},${topG},${topB})`);
+      grad.addColorStop(1, `rgb(${botR},${botG},${botB})`);
 
       ctx.fillStyle = grad;
-      // Seamless fill completely removing the old text
-      ctx.fillRect(box.x - 1, box.y - 1, box.w + 2, box.h + 2);
+      ctx.fillRect(box.x, box.y, box.w, box.h);
 
-      // Now draw the replacement text perfectly inside the box
-      const newText = document.getElementById('replacementText').value;
-      const fSize = parseInt(document.getElementById('fontSize').value) || 22;
-      const fWeight = document.getElementById('fontWeight').value;
-      const fColor = document.getElementById('textColor').value;
-      const fFamily = document.getElementById('fontFamily').value;
-
-      ctx.font = `${fWeight} ${fSize}px ${fFamily}`;
-      ctx.fillStyle = fColor;
-      ctx.textBaseline = "middle";
-
-      // Center the new text vertically and horizontally inside the replaced area
-      const textMetrics = ctx.measureText(newText);
-      const drawX = box.x + (box.w - textMetrics.width) / 2;
-      const drawY = box.y + (box.h / 2);
-
-      ctx.fillText(newText, drawX, drawY);
+      // Smooth horizontal blend
+      ctx.filter = 'blur(1px)';
+      ctx.fillRect(box.x, box.y, box.w, box.h);
+      ctx.filter = 'none';
 
       saveState();
+
+      // Automatically place the draggable text box near the erased area
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = rect.width / canvas.width;
+      const scaleY = rect.height / canvas.height;
+      floatingLayer.style.left = (box.x * scaleX) + 'px';
+      floatingLayer.style.top = (box.y * scaleY) + 'px';
     }
 
-    // Listeners
-    canvas.addEventListener('mousedown', handleStart);
-    canvas.addEventListener('mousemove', handleMove);
-    window.addEventListener('mouseup', handleEnd);
+    // Floating Text Layer Sync
+    function updateFloatingText() {
+      const text = document.getElementById('typeTextInput').value;
+      const size = document.getElementById('fontSizeInput').value;
+      const weight = document.getElementById('fontWeightInput').value;
+      const color = document.getElementById('textColorInput').value;
 
-    canvas.addEventListener('touchstart', handleStart, { passive: false });
-    canvas.addEventListener('touchmove', handleMove, { passive: false });
-    window.addEventListener('touchend', handleEnd);
+      floatingLayer.innerText = text;
+      floatingLayer.style.fontSize = size + 'px';
+      floatingLayer.style.fontWeight = weight;
+      floatingLayer.style.color = color;
+    }
 
-    function downloadEdited() {
+    // Drag and Drop Logic for Floating Text
+    let isDraggingText = false;
+    let dragOffsetX = 0, dragOffsetY = 0;
+
+    floatingLayer.addEventListener('mousedown', startDragText);
+    floatingLayer.addEventListener('touchstart', startDragText, { passive: false });
+
+    function startDragText(e) {
+      isDraggingText = true;
+      floatingLayer.classList.add('active');
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const rect = floatingLayer.getBoundingClientRect();
+      dragOffsetX = clientX - rect.left;
+      dragOffsetY = clientY - rect.top;
+      e.stopPropagation();
+    }
+
+    window.addEventListener('mousemove', moveDragText);
+    window.addEventListener('touchmove', moveDragText, { passive: false });
+
+    function moveDragText(e) {
+      if (!isDraggingText) return;
+      e.preventDefault();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const stageRect = stageWrapper.getBoundingClientRect();
+
+      let newX = clientX - stageRect.left - dragOffsetX;
+      let newY = clientY - stageRect.top - dragOffsetY;
+
+      floatingLayer.style.left = newX + 'px';
+      floatingLayer.style.top = newY + 'px';
+    }
+
+    window.addEventListener('mouseup', () => { isDraggingText = false; floatingLayer.classList.remove('active'); });
+    window.addEventListener('touchend', () => { isDraggingText = false; floatingLayer.classList.remove('active'); });
+
+    // Bake & Lock Text onto the Canvas
+    function bakeTextToCanvas() {
+      if (!loadedImg) return;
+
+      const text = document.getElementById('typeTextInput').value;
+      const size = parseInt(document.getElementById('fontSizeInput').value) || 24;
+      const weight = document.getElementById('fontWeightInput').value;
+      const color = document.getElementById('textColorInput').value;
+
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      const layerLeft = parseFloat(floatingLayer.style.left) || 0;
+      const layerTop = parseFloat(floatingLayer.style.top) || 0;
+
+      const drawX = (layerLeft + 6) * scaleX;
+      const drawY = (layerTop + (floatingLayer.offsetHeight * 0.75)) * scaleY;
+
+      ctx.font = `${weight} ${size}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+      ctx.fillStyle = color;
+      ctx.fillText(text, drawX, drawY);
+
+      saveState();
+      alert("✅ नया टेक्स्ट स्क्रीनशॉट में लॉक हो चुका है! अब आप इसे डाउनलोड कर सकते हैं।");
+    }
+
+    // Final Download
+    function downloadResult() {
       if (!loadedImg) {
         alert("कृपया पहले स्क्रीनशॉट अपलोड करें!");
-        document.getElementById('screenFileInput').click();
+        document.getElementById('fileUpload').click();
         return;
       }
       const link = document.createElement('a');
-      link.download = originalFileName;
+      link.download = fileName;
       link.href = canvas.toDataURL('image/png');
       link.click();
     }
