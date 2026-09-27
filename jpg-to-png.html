@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JPG to PNG & PNG to JPG Converter Online - Format Converter</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन इमेज फॉर्मेट कनवर्टर। JPG को PNG और PNG को JPG या WEBP में बदलें बिना क्वालिटी खोए।">
+  <link rel="canonical" href="https://photoresizer.store/jpg-to-png.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .upload-hint svg { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 8px; }
+    .upload-hint h4 { font-size: 15px; font-weight: 700; }
+    .upload-hint p { font-size: 12px; color: var(--muted); }
+
+    #convertCanvas {
+      max-width: 100%;
+      max-height: 270px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      display: none;
+      object-fit: contain;
+    }
+
+    .controls-deck { display: flex; flex-direction: column; gap: 16px; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group select, .control-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-action:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>🔄 JPG ⇄ PNG Format Converter</h1>
+      <p>फोटो को JPG, PNG या WEBP फॉर्मेट में तुरंत बदलें और आवश्यकतानुसार फाइल साइज नियंत्रित करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Left Screen -->
+      <div class="preview-stage" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-hint" id="uploadHint">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <h4 id="fileStatus">फोटो चुनने के लिए यहाँ टैप करें</h4>
+          <p>JPG, JPEG, PNG, WEBP</p>
+        </div>
+        <canvas id="convertCanvas"></canvas>
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      </div>
+            <!-- Right Controls -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>कन्वर्ट करने हेतु फॉर्मेट चुनें:</label>
+          <select id="formatSelect">
+            <option value="image/png">PNG (.png) - पारदर्शी बैकग्राउंड सपोर्ट</option>
+            <option value="image/jpeg">JPG / JPEG (.jpg) - सरकारी फॉर्म हेतु अनिवार्य</option>
+            <option value="image/webp">WEBP (.webp) - सुपरफास्ट वेब साइज</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>बैकग्राउंड फिल (यदि PNG से JPG बना रहे हैं):</label>
+          <select id="fillColor">
+            <option value="#ffffff">सफेद (White - फॉर्म हेतु अनिवार्य)</option>
+            <option value="none">पारदर्शी रखें (Transparent - केवल PNG हेतु)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>क्वालिटी / आउटपुट साइज़:</label>
+          <select id="qualitySelect">
+            <option value="0.95">Best Quality (Original Sharpness)</option>
+            <option value="0.85">Balanced (कम साइज, अच्छी क्वालिटी)</option>
+            <option value="0.70">Maximum Compression (सबसे छोटा साइज)</option>
+          </select>
+        </div>
+
+        <button class="btn-action" onclick="executeConvert()">फॉर्मेट बदलें ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="sizeOutput" style="font-weight:700; color:#065F46;">फोटो सफलतापूर्वक कन्वर्ट हो गई है!</p>
+          <a id="downloadLink" class="btn-download" download="converted_photo">डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Table -->
+    <div class="info-card">
+      <h3>JPG बनाम PNG - कौन सा फॉर्मेट कब चुनें?</h3>
+      <table>
+        <thead>
+          <tr><th>फॉर्मेट</th><th>कहाँ इस्तेमाल करें?</th><th>विशेषता</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>JPG / JPEG</td><td>सरकारी भर्ती फॉर्म (SSC, Police, UPSC)</td><td>छोटा साइज (KB) और फॉर्म पोर्टल्स पर 100% मान्य</td></tr>
+          <tr><td>PNG</td><td>हस्ताक्षर, लोगो और ग्राफिक्स</td><td>पारदर्शी (Transparent) बैकग्राउंड और उच्चतम स्पष्टता</td></tr>
+          <tr><td>WEBP</td><td>वेबसाइट और ब्लॉग</td><td>JPG से 30% छोटा साइज और तेज़ लोडिंग</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let originalBaseName = "converted";
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalBaseName = file.name.replace(/\.[^/.]+$/, "");
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            renderPreview();
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function renderPreview() {
+      const canvas = document.getElementById('convertCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = uploadedImg.width;
+      canvas.height = uploadedImg.height;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(uploadedImg, 0, 0);
+
+      document.getElementById('uploadHint').style.display = 'none';
+      canvas.style.display = 'block';
+    }
+
+    function executeConvert() {
+      if (!uploadedImg) {
+        alert("कृपया पहले अपनी फोटो चुनें!");
+        document.getElementById('fileInput').click();
+        return;
+      }
+
+      const format = document.getElementById('formatSelect').value;
+      const fill = document.getElementById('fillColor').value;
+      const quality = parseFloat(document.getElementById('qualitySelect').value);
+
+      const canvas = document.getElementById('convertCanvas');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = uploadedImg.width;
+      canvas.height = uploadedImg.height;
+
+      if (format !== 'image/png' || fill !== 'none') {
+        ctx.fillStyle = fill === 'none' ? '#ffffff' : fill;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      ctx.drawImage(uploadedImg, 0, 0);
+
+      let ext = 'jpg';
+      if (format === 'image/png') ext = 'png';
+      else if (format === 'image/webp') ext = 'webp';
+
+      canvas.toBlob(function(blob) {
+        const sizeKb = (blob.size / 1024).toFixed(1);
+        const url = URL.createObjectURL(blob);
+        const dl = document.getElementById('downloadLink');
+        dl.href = url;
+        dl.download = `${originalBaseName}.${ext}`;
+
+        document.getElementById('sizeOutput').innerText = `🎉 तैयार फॉर्मेट: .${ext.toUpperCase()} (${sizeKb} KB)`;
+        document.getElementById('resultBox').style.display = 'block';
+      }, format, quality);
+    }
+  </script>
+</body>
+</html>
