@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenshot Editor Online - स्क्रीनशॉट ब्लर, ब्लैकआउट व मार्क करें</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन स्क्रीनशॉट एडिटर। स्क्रीनशॉट से फोन नंबर व बैंक बैलेंस ब्लैकआउट करें, तीर व लाल घेरा लगाएं और तुरंत सेव करें।">
+  <link rel="canonical" href="https://photoresizer.store/screenshot-editor.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 1000px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .toolbar-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      background: #F1F5F9;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .tool-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tool-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .canvas-container {
+      background: #E2E8F0;
+      border-radius: 10px;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      padding: 15px;
+      cursor: crosshair;
+    }
+    #screenCanvas {
+      max-width: 100%;
+      border-radius: 4px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      background: #fff;
+      display: none;
+    }
+
+    .bottom-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-save {
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+    }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>🖍️ Screenshot Editor & Privacy Redactor</h1>
+      <p>स्क्रीनशॉट से निजी जानकारी (नंबर, नाम, बैलेंस) छिपाएं, लाल घेरा लगाएं और तुरंत सुरक्षित शेयर करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Toolbar -->
+      <div class="toolbar-row">
+        <button class="tool-btn" onclick="document.getElementById('screenFileInput').click()">📁 स्क्रीनशॉट चुनें</button>
+        <button class="tool-btn active" id="btnBlackout" onclick="setMode('blackout')">⬛ ब्लैकआउट (Hide Info)</button>
+        <button class="tool-btn" id="btnRedBox" onclick="setMode('redbox')">🟥 लाल घेरा (Highlight)</button>
+        <button class="tool-btn" onclick="resetScreenshot()">↺ रीसेट</button>
+      </div>
+
+      <!-- Canvas Stage -->
+      <div class="canvas-container" id="canvasWrapper">
+        <div id="uploadPrompt" onclick="document.getElementById('screenFileInput').click()" style="text-align:center; cursor:pointer;">
+          <h4>स्क्रीनशॉट अपलोड करने के लिए यहाँ क्लिक करें</h4>
+          <p style="font-size:12px; color:var(--muted);">PNG, JPG (मोबाइल या कंप्यूटर स्क्रीनशॉट)</p>
+        </div>
+        <canvas id="screenCanvas"></canvas>
+        <input type="file" id="screenFileInput" accept="image/*" style="display:none;">
+      </div>
+
+      <!-- Action Row -->
+      <div class="bottom-actions">
+        <span style="font-size:12px; color:var(--muted);">*स्क्रीनशॉट पर माउस या उंगली से ड्रैग करके बॉक्स बनाएं।</span>
+        <button class="btn-save" onclick="downloadEditedScreenshot()">एडिटेड स्क्रीनशॉट डाउनलोड करें 📥</button>
+      </div>
+    </div>
+  </div>
+    <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let canvas = document.getElementById('screenCanvas');
+    let ctx = canvas.getContext('2d');
+    let mode = 'blackout'; // 'blackout' or 'redbox'
+    let isDrawing = false;
+    let startX = 0, startY = 0;
+    let snapshot = null;
+
+    document.getElementById('screenFileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            canvas.width = uploadedImg.width;
+            canvas.height = uploadedImg.height;
+            ctx.drawImage(uploadedImg, 0, 0);
+
+            document.getElementById('uploadPrompt').style.display = 'none';
+            canvas.style.display = 'block';
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function setMode(newMode) {
+      mode = newMode;
+      document.getElementById('btnBlackout').classList.toggle('active', mode === 'blackout');
+      document.getElementById('btnRedBox').classList.toggle('active', mode === 'redbox');
+    }
+
+    function resetScreenshot() {
+      if (uploadedImg) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(uploadedImg, 0, 0);
+      }
+    }
+
+    // Touch & Mouse Drawing
+    function getCanvasCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startDraw(e) {
+      if (!uploadedImg) return;
+      isDrawing = true;
+      const coords = getCanvasCoords(e);
+      startX = coords.x;
+      startY = coords.y;
+      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const coords = getCanvasCoords(e);
+      ctx.putImageData(snapshot, 0, 0);
+
+      const w = coords.x - startX;
+      const h = coords.y - startY;
+
+      if (mode === 'blackout') {
+        ctx.fillStyle = '#0F172A';
+        ctx.fillRect(startX, startY, w, h);
+      } else if (mode === 'redbox') {
+        ctx.strokeStyle = '#EF4444';
+        ctx.lineWidth = Math.max(3, canvas.width / 250);
+        ctx.strokeRect(startX, startY, w, h);
+      }
+    }
+
+    function stopDraw() {
+      isDrawing = false;
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
+
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    window.addEventListener('touchend', stopDraw);
+
+    function downloadEditedScreenshot() {
+      if (!uploadedImg) {
+        alert("कृपया पहले स्क्रीनशॉट अपलोड करें!");
+        document.getElementById('screenFileInput').click();
+        return;
+      }
+      const link = document.createElement('a');
+      link.download = "Edited_Screenshot.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+  </script>
+</body>
+</html>
