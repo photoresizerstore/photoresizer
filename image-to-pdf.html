@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to PDF Converter Online - फोटो को तुरंत PDF बनाएं</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन इमेज टू पीडीएफ कनवर्टर। मार्कशीट, फोटो व दस्तावेजों को तुरंत A4 PDF में बदलें बिना क्वालिटी खोए।">
+  <link rel="canonical" href="https://photoresizer.store/image-to-pdf.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <!-- PDF-Lib Engine -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .upload-hint svg { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 8px; }
+    .upload-hint h4 { font-size: 15px; font-weight: 700; }
+    .upload-hint p { font-size: 12px; color: var(--muted); }
+
+    #docPreviewImg {
+      max-width: 100%;
+      max-height: 270px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      display: none;
+      object-fit: contain;
+    }
+
+    .controls-deck { display: flex; flex-direction: column; gap: 16px; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-action:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>📑 Image to PDF Converter Online</h1>
+      <p>फोटो, मार्कशीट या डॉक्यूमेंट को 1 सेकंड में उच्च गुणवत्ता वाली PDF फाइल में बदलें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Left Screen -->
+      <div class="preview-stage" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-hint" id="uploadHint">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <h4 id="fileStatus">दस्तावेज़ या फोटो चुनने के लिए यहाँ टैप करें</h4>
+          <p>JPG, JPEG, PNG (मार्कशीट, सर्टिफिकेट या फोटो)</p>
+        </div>
+        <img id="docPreviewImg" alt="Document Preview">
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      </div>
+            <!-- Right Controls -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>पेज साइज़ (Page Size):</label>
+          <select id="pageSize">
+            <option value="a4">A4 Standard (मानक दस्तावेज़ / फॉर्म हेतु)</option>
+            <option value="fit">Fit to Image (फोटो के साइज़ अनुसार)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>पेज ओरिएंटेशन (Orientation):</label>
+          <select id="pageOrientation">
+            <option value="portrait">Portrait (सीधा - मार्कशीट व सर्टिफिकेट हेतु)</option>
+            <option value="landscape">Landscape (आड़ा / चौड़ा दस्तावेज़)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>मार्जिन (Page Margin):</label>
+          <select id="pageMargin">
+            <option value="small">छोटा मार्जिन (Clean Border)</option>
+            <option value="none">बिना मार्जिन के (Full Page Coverage)</option>
+          </select>
+        </div>
+
+        <button class="btn-action" onclick="generatePdf()">PDF बनाएं ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="sizeOutput" style="font-weight:700; color:#065F46;">PDF फाइल तैयार है!</p>
+          <a id="downloadLink" class="btn-download" download="document.pdf">PDF डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Table -->
+    <div class="info-card">
+      <h3>सरकारी फॉर्म हेतु PDF डॉक्यूमेंट गाइडलाइन:</h3>
+      <table>
+        <thead>
+          <tr><th>दस्तावेज़ प्रकार</th><th>मानक साइज़ सीमा</th><th>आवश्यकता</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>जाति / निवास प्रमाण पत्र (Caste / Domicile)</td><td>100 KB से 300 KB</td><td>A4 पेज पर साफ़ और पठनीय होना चाहिए</td></tr>
+          <tr><td>10वीं व 12वीं मार्कशीट (Marksheet)</td><td>100 KB से 500 KB</td><td>रोल नंबर और ग्रेड्स स्पष्ट दिखाई देने चाहिए</td></tr>
+          <tr><td>पहचान पत्र (Aadhaar / PAN Card)</td><td>50 KB से 200 KB</td><td>फ्रंट व बैक दोनों स्पष्ट दिखने चाहिए</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let originalBaseName = "document";
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalBaseName = file.name.replace(/\.[^/.]+$/, "");
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            const preview = document.getElementById('docPreviewImg');
+            preview.src = evt.target.result;
+            preview.style.display = 'block';
+            document.getElementById('uploadHint').style.display = 'none';
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    async function generatePdf() {
+      if (!uploadedImg) {
+        alert("कृपया पहले अपनी फोटो या दस्तावेज़ चुनें!");
+        document.getElementById('fileInput').click();
+        return;
+      }
+
+      try {
+        const { PDFDocument } = PDFLib;
+        const pdfDoc = await PDFDocument.create();
+
+        const pSize = document.getElementById('pageSize').value;
+        const orientation = document.getElementById('pageOrientation').value;
+        const marginOpt = document.getElementById('pageMargin').value;
+
+        // A4 dimensions in points: 595.28 x 841.89
+        let pageWidth = 595.28;
+        let pageHeight = 841.89;
+
+        if (pSize === 'fit') {
+          pageWidth = uploadedImg.width;
+          pageHeight = uploadedImg.height;
+        } else if (orientation === 'landscape') {
+          pageWidth = 841.89;
+          pageHeight = 595.28;
+        }
+
+        const page = pdfDoc.addPage([pageWidth, pageHeight]);
+
+        // Convert image to JPEG bytes
+        const canvas = document.createElement('canvas');
+        canvas.width = uploadedImg.width;
+        canvas.height = uploadedImg.height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(uploadedImg, 0, 0);
+
+        const imgBytes = await new Promise(resolve => canvas.toBlob(b => b.arrayBuffer().then(resolve), 'image/jpeg', 0.90));
+        const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+
+        let margin = (marginOpt === 'small' && pSize !== 'fit') ? 20 : 0;
+        let drawWidth = pageWidth - (margin * 2);
+        let drawHeight = pageHeight - (margin * 2);
+
+        // Aspect ratio scaling
+        const imgRatio = uploadedImg.width / uploadedImg.height;
+        const pageRatio = drawWidth / drawHeight;
+
+        let finalW = drawWidth;
+        let finalH = drawHeight;
+
+        if (imgRatio > pageRatio) {
+          finalH = drawWidth / imgRatio;
+        } else {
+          finalW = drawHeight * imgRatio;
+        }
+
+        const posX = margin + (drawWidth - finalW) / 2;
+        const posY = margin + (drawHeight - finalH) / 2;
+
+        page.drawImage(embeddedImg, {
+          x: posX,
+          y: posY,
+          width: finalW,
+          height: finalH,
+        });
+
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const sizeKb = (blob.size / 1024).toFixed(1);
+
+        const url = URL.createObjectURL(blob);
+        const dl = document.getElementById('downloadLink');
+        dl.href = url;
+        dl.download = `${originalBaseName}.pdf`;
+
+        document.getElementById('sizeOutput').innerText = `🎉 PDF सफलतापूर्वक तैयार है! (${sizeKb} KB)`;
+        document.getElementById('resultBox').style.display = 'block';
+      } catch (err) {
+        alert("PDF बनाने में समस्या आई: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
