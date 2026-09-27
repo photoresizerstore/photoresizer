@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Background Cleaner & Remover Online - सरकारी फॉर्म हेतु बैकग्राउंड बदलें</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन फोटो बैकग्राउंड क्लीनर। SSC, UP Police, रेलवे फॉर्म हेतु फोटो का बैकग्राउंड साफ़ सफ़ेद या हल्का नीला करें।">
+  <link rel="canonical" href="https://photoresizer.store/background-remove.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .upload-hint svg { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 8px; }
+    .upload-hint h4 { font-size: 15px; font-weight: 700; }
+    .upload-hint p { font-size: 12px; color: var(--muted); }
+
+    #bgCanvas {
+      max-width: 100%;
+      max-height: 270px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      display: none;
+      object-fit: contain;
+    }
+
+    .controls-deck { display: flex; flex-direction: column; gap: 14px; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group select, .control-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-action:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>🎨 Photo Background Cleaner & Fixer</h1>
+      <p>फोटो के बैकग्राउंड का रंग बदलें, लाइटिंग साफ करें और सरकारी परीक्षा नियमों अनुसार सही करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Left Screen -->
+      <div class="preview-stage" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-hint" id="uploadHint">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <h4 id="fileStatus">फोटो चुनने के लिए यहाँ टैप करें</h4>
+          <p>JPG, JPEG, PNG (साफ चेहरे वाली फोटो)</p>
+        </div>
+        <canvas id="bgCanvas"></canvas>
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      </div>
+            <!-- Right Controls -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>बैकग्राउंड का मानक रंग चुनें:</label>
+          <select id="bgColorSelect" onchange="applyBgEffect()">
+            <option value="#ffffff">सफेद (White - SSC व पुलिस फॉर्म हेतु अनिवार्य)</option>
+            <option value="#E0F2FE">हल्का नीला (Light Blue - पासपोर्ट व जॉब्स)</option>
+            <option value="#F1F5F9">हल्का ग्रे (Light Grey - स्टैंडर्ड)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>चेहरे की लाइटिंग (Brightness & Clarity):</label>
+          <input type="range" id="brightRange" min="80" max="140" value="105" oninput="applyBgEffect()" style="padding:0;">
+          <span style="font-size:11px; color:var(--muted);">परछाईं हटाने हेतु स्लाइडर से ब्राइटनेस सेट करें।</span>
+        </div>
+
+        <div class="control-group">
+          <label>बॉर्डर जोड़ें (Clean Border):</label>
+          <select id="borderSelect" onchange="applyBgEffect()">
+            <option value="yes">हाँ, हल्का बॉर्डर लगाएं (Recommended)</option>
+            <option value="no">बिना बॉर्डर के रखें</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>टारगेट साइज़ सीमा (KB):</label>
+          <input type="number" id="targetKb" value="50" min="10" max="200">
+        </div>
+
+        <button class="btn-action" onclick="applyBgEffect()">प्रोसेस करें और सेव करें ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="sizeOutput" style="font-weight:700; color:#065F46;">फोटो सफलतापूर्वक तैयार है!</p>
+          <a id="downloadLink" class="btn-download" download="clean_bg_photo.jpg">डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Table -->
+    <div class="info-card">
+      <h3>सरकारी फॉर्म हेतु फोटो बैकग्राउंड नियम:</h3>
+      <table>
+        <thead>
+          <tr><th>नियम</th><th>सही तरीका (Accepted)</th><th>गलत तरीका (Rejected)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>बैकग्राउंड का रंग</td><td>सादा सफेद या बहुत हल्का रंग</td><td>दीवार के डिजाइन, फूल, या गहरे रंग</td></tr>
+          <tr><td>परछाईं (Shadow)</td><td>चेहरे या बैकग्राउंड पर कोई छाया न हो</td><td>एक तरफ काली परछाईं या अंधेरा</td></tr>
+          <tr><td>फोटो का प्रकार</td><td>स्टूडियो जैसी स्पष्ट लाइट वाली फोटो</td><td>सेल्फी, तिरछी या बाहर खिंची फोटो</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let originalFileName = "photo_bg.jpg";
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalFileName = file.name;
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            applyBgEffect();
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function applyBgEffect() {
+      if (!uploadedImg) {
+        alert("कृपया पहले अपनी फोटो चुनें!");
+        document.getElementById('fileInput').click();
+        return;
+      }
+
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let w = uploadedImg.width;
+      let h = uploadedImg.height;
+
+      // Standardize size to max 800px width
+      if (w > 800) {
+        h = Math.round((h * 800) / w);
+        w = 800;
+      }
+
+      canvas.width = w;
+      canvas.height = h;
+
+      // Apply chosen background
+      ctx.fillStyle = document.getElementById('bgColorSelect').value;
+      ctx.fillRect(0, 0, w, h);
+
+      // Brightness filter
+      const brightness = document.getElementById('brightRange').value;
+      ctx.filter = `brightness(${brightness}%) contrast(102%)`;
+      ctx.drawImage(uploadedImg, 0, 0, w, h);
+      ctx.filter = 'none';
+
+      // Border
+      if (document.getElementById('borderSelect').value === 'yes') {
+        ctx.strokeStyle = '#CBD5E1';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
+      }
+
+      document.getElementById('uploadHint').style.display = 'none';
+      canvas.style.display = 'block';
+
+      const targetKb = parseFloat(document.getElementById('targetKb').value) || 50;
+      let quality = 0.95;
+
+      function compressLoop() {
+        canvas.toBlob(function(blob) {
+          const sizeKb = blob.size / 1024;
+          if (sizeKb > targetKb && quality > 0.1) {
+            quality -= 0.08;
+            compressLoop();
+          } else {
+            const url = URL.createObjectURL(blob);
+            const dl = document.getElementById('downloadLink');
+            dl.href = url;
+            dl.download = `CleanBG_${targetKb}KB_${originalFileName}`;
+
+            document.getElementById('sizeOutput').innerText = `🎉 फोटो तैयार है! (साइज: ${sizeKb.toFixed(1)} KB)`;
+            document.getElementById('resultBox').style.display = 'block';
+          }
+        }, 'image/jpeg', quality);
+      }
+      compressLoop();
+    }
+  </script>
+</body>
+</html>
