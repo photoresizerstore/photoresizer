@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passport Photo Maker - 3.5 x 4.5 cm सरकारी फॉर्म हेतु ऑनलाइन टूल</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन पासपोर्ट साइज फोटो मेकर। SSC, UPSC, रेलवे, पुलिस भर्ती हेतु 3.5cm x 4.5cm साइज, सफेद बैकग्राउंड और बॉर्डर जोड़ें।">
+  <link rel="canonical" href="https://photoresizer.store/passport-photo.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    /* Left Stage */
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .upload-hint svg { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 8px; }
+    .upload-hint h4 { font-size: 15px; font-weight: 700; }
+    .upload-hint p { font-size: 12px; color: var(--muted); }
+
+    #passportCanvas {
+      max-width: 210px;
+      max-height: 270px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      border-radius: 4px;
+      display: none;
+    }
+
+    /* Right Controls */
+    .controls-deck { display: flex; flex-direction: column; gap: 16px; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group select, .control-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-generate {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-generate:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    /* Information Table */
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>👤 Passport Size Photo Maker</h1>
+      <p>सरकारी भर्ती फॉर्म के नियमों (3.5cm x 4.5cm) के अनुसार मानक पासपोर्ट फोटो तैयार करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Left Screen -->
+      <div class="preview-stage" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-hint" id="uploadHint">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <h4 id="fileStatus">फोटो अपलोड करने के लिए टैप करें</h4>
+          <p>JPG, JPEG, PNG (साफ चेहरा)</p>
+        </div>
+        <canvas id="passportCanvas"></canvas>
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      </div>
+            <!-- Right Controls -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>पासपोर्ट मानक साइज़:</label>
+          <select id="sizePreset">
+            <option value="standard">3.5 cm × 4.5 cm (India Standard)</option>
+            <option value="square">2 × 2 inch (US / Visa Standard)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>बैकग्राउंड का रंग:</label>
+          <select id="bgColor">
+            <option value="#ffffff">सफेद (White - फॉर्म हेतु अनिवार्य)</option>
+            <option value="#E0F2FE">हल्का नीला (Light Blue)</option>
+            <option value="#F1F5F9">हल्का ग्रे (Light Grey)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>फोटो बॉर्डर:</label>
+          <select id="borderSelect">
+            <option value="yes">पतला बॉर्डर लगाएं (Standard Border)</option>
+            <option value="no">बिना बॉर्डर के (No Border)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>टारगेट फाइल साइज़ (KB):</label>
+          <input type="number" id="targetKb" value="50" min="10" max="200">
+        </div>
+
+        <button class="btn-generate" onclick="generatePassportPhoto()">तैयार करें ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="sizeOutput" style="font-weight:700; color:#065F46;">पासपोर्ट फोटो तैयार है!</p>
+          <a id="downloadLink" class="btn-download" download="passport_photo.jpg">डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Guidelines -->
+    <div class="info-card">
+      <h3>सरकारी फॉर्म हेतु पासपोर्ट फोटो के मुख्य नियम:</h3>
+      <table>
+        <thead>
+          <tr><th>नियम</th><th>विवरण</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>फोटो का अनुपात</td><td>3.5 cm चौड़ाई × 4.5 cm ऊंचाई</td></tr>
+          <tr><td>चेहरे का कवरेज</td><td>फोटो में चेहरा 70% से 80% भाग कवर करना चाहिए</td></tr>
+          <tr><td>बैकग्राउंड</td><td>हल्का या सफेद बैकग्राउंड होना चाहिए</td></tr>
+          <tr><td>मानक फाइल साइज़</td><td>अधिकतम 50 KB (SSC, UPSC, UP Police)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let originalFileName = "passport.jpg";
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalFileName = file.name;
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            generatePassportPhoto();
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function generatePassportPhoto() {
+      if (!uploadedImg) {
+        alert("कृपया पहले अपनी फोटो सेलेक्ट करें!");
+        document.getElementById('fileInput').click();
+        return;
+      }
+
+      const canvas = document.getElementById('passportCanvas');
+      const ctx = canvas.getContext('2d');
+      const preset = document.getElementById('sizePreset').value;
+
+      // Dimensions at 300 DPI
+      let w = 413, h = 531; // 3.5cm x 4.5cm
+      if (preset === 'square') {
+        w = 600; h = 600;
+      }
+
+      canvas.width = w;
+      canvas.height = h;
+
+      // Background
+      ctx.fillStyle = document.getElementById('bgColor').value;
+      ctx.fillRect(0, 0, w, h);
+
+      // Draw Image Centered
+      const scale = Math.min((w - 20) / uploadedImg.width, (h - 20) / uploadedImg.height);
+      const nw = uploadedImg.width * scale;
+      const nh = uploadedImg.height * scale;
+      const nx = (w - nw) / 2;
+      const ny = (h - nh) / 2;
+
+      ctx.drawImage(uploadedImg, nx, ny, nw, nh);
+
+      // Border
+      if (document.getElementById('borderSelect').value === 'yes') {
+        ctx.strokeStyle = '#94A3B8';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(2, 2, w - 4, h - 4);
+      }
+
+      document.getElementById('uploadHint').style.display = 'none';
+      canvas.style.display = 'block';
+
+      // Compression to target KB
+      const targetKb = parseFloat(document.getElementById('targetKb').value) || 50;
+      let quality = 0.95;
+
+      function compressLoop() {
+        canvas.toBlob(function(blob) {
+          const sizeKb = blob.size / 1024;
+          if (sizeKb > targetKb && quality > 0.1) {
+            quality -= 0.08;
+            compressLoop();
+          } else {
+            const url = URL.createObjectURL(blob);
+            const dl = document.getElementById('downloadLink');
+            dl.href = url;
+            dl.download = "Passport_" + targetKb + "KB_" + originalFileName;
+
+            document.getElementById('sizeOutput').innerText = `🎉 फोटो तैयार है! (साइज: ${sizeKb.toFixed(1)} KB)`;
+            document.getElementById('resultBox').style.display = 'block';
+          }
+        }, 'image/jpeg', quality);
+      }
+      compressLoop();
+    }
+  </script>
+</body>
+</html>
