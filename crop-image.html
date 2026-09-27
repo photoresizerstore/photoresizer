@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crop Image Online - फोटो को मनचाहे हिस्से तक काटें</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन इमेज क्रॉप टूल। पासपोर्ट साइज (3.5:4.5), सिग्नेचर और स्क्वायर में फोटो क्रॉप करें और तुरंत सही KB में डाउनलोड करें।">
+  <link rel="canonical" href="https://photoresizer.store/crop-image.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      padding: 15px;
+    }
+    .upload-hint svg { width: 50px; height: 50px; fill: var(--primary); margin-bottom: 8px; }
+    .upload-hint h4 { font-size: 15px; font-weight: 700; }
+    .upload-hint p { font-size: 12px; color: var(--muted); }
+
+    #cropCanvas {
+      max-width: 100%;
+      max-height: 270px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      display: none;
+      object-fit: contain;
+    }
+
+    .controls-deck { display: flex; flex-direction: column; gap: 14px; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group select, .control-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .btn-action:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>✂️ Crop Image Online</h1>
+      <p>फोटो को सही अनुपात में काटें (पासपोर्ट, सिग्नेचर, स्क्वायर) और सही KB में डाउनलोड करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Left Screen -->
+      <div class="preview-stage" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-hint" id="uploadHint">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+          <h4 id="fileStatus">फोटो चुनने के लिए यहाँ टैप करें</h4>
+          <p>JPG, JPEG, PNG, WEBP</p>
+        </div>
+        <canvas id="cropCanvas"></canvas>
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+      </div>
+            <!-- Right Controls -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>क्रॉप अनुपात (Aspect Ratio):</label>
+          <select id="cropRatioSelect" onchange="executeCrop()">
+            <option value="0.777">3.5 : 4.5 (Passport Size - सरकारी फॉर्म)</option>
+            <option value="1">1 : 1 (Square - चौकोर प्रोफाइल)</option>
+            <option value="0.4">हस्ताक्षर (Wide Signature - 7:3)</option>
+            <option value="1.777">16 : 9 (Landscape / Banner)</option>
+            <option value="0.562">9 : 16 (Story / Reel)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>क्रॉप पोजीशन (Alignment):</label>
+          <select id="cropPosition" onchange="executeCrop()">
+            <option value="center">सेंटर (Center - चेहरा बीच में)</option>
+            <option value="top">टॉप (Top - सिर का ऊपरी हिस्सा)</option>
+            <option value="bottom">बॉटम (Bottom)</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>टारगेट साइज़ सीमा (KB):</label>
+          <input type="number" id="targetKb" value="50" min="10" max="500">
+        </div>
+
+        <button class="btn-action" onclick="executeCrop()">क्रॉप करें और सेव करें ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="sizeOutput" style="font-weight:700; color:#065F46;">फोटो क्रॉप हो गई है!</p>
+          <a id="downloadLink" class="btn-download" download="cropped_photo.jpg">डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Table -->
+    <div class="info-card">
+      <h3>क्रॉपिंग रेशियो गाइडलाइन:</h3>
+      <table>
+        <thead>
+          <tr><th>उपयोग</th><th>अनुपात (Ratio)</th><th>विवरण</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>पासपोर्ट फोटो</td><td>3.5 : 4.5 (0.77)</td><td>SSC, UPSC, UP Police फॉर्म हेतु</td></tr>
+          <tr><td>हस्ताक्षर (Signature)</td><td>7 : 3 (0.4)</td><td>साइन को चौकोर की जगह लंबे रूप में काटने हेतु</td></tr>
+          <tr><td>प्रोफाइल पिक्चर</td><td>1 : 1</td><td>WhatsApp, सोशल मीडिया और एडमिट कार्ड</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedImg = null;
+    let originalFileName = "cropped.jpg";
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalFileName = file.name;
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedImg = new Image();
+          uploadedImg.onload = function() {
+            executeCrop();
+          };
+          uploadedImg.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function executeCrop() {
+      if (!uploadedImg) {
+        alert("कृपया पहले अपनी फोटो चुनें!");
+        document.getElementById('fileInput').click();
+        return;
+      }
+
+      const canvas = document.getElementById('cropCanvas');
+      const ctx = canvas.getContext('2d');
+      const ratio = parseFloat(document.getElementById('cropRatioSelect').value);
+      const position = document.getElementById('cropPosition').value;
+
+      let sw = uploadedImg.width;
+      let sh = uploadedImg.height;
+      let sx = 0, sy = 0;
+
+      if (sw / sh > ratio) {
+        let nw = sh * ratio;
+        sx = (sw - nw) / 2;
+        sw = nw;
+      } else {
+        let nh = sw / ratio;
+        if (position === 'top') sy = 0;
+        else if (position === 'bottom') sy = sh - nh;
+        else sy = (sh - nh) / 2;
+        sh = nh;
+      }
+
+      canvas.width = sw;
+      canvas.height = sh;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, sw, sh);
+      ctx.drawImage(uploadedImg, sx, sy, sw, sh, 0, 0, sw, sh);
+
+      document.getElementById('uploadHint').style.display = 'none';
+      canvas.style.display = 'block';
+
+      const targetKb = parseFloat(document.getElementById('targetKb').value) || 50;
+      let quality = 0.95;
+
+      function compressLoop() {
+        canvas.toBlob(function(blob) {
+          const sizeKb = blob.size / 1024;
+          if (sizeKb > targetKb && quality > 0.1) {
+            quality -= 0.08;
+            compressLoop();
+          } else {
+            const url = URL.createObjectURL(blob);
+            const dl = document.getElementById('downloadLink');
+            dl.href = url;
+            dl.download = `Cropped_${targetKb}KB_${originalFileName}`;
+
+            document.getElementById('sizeOutput').innerText = `🎉 तैयार साइज़: ${Math.round(sw)}×${Math.round(sh)} px (${sizeKb.toFixed(1)} KB)`;
+            document.getElementById('resultBox').style.display = 'block';
+          }
+        }, 'image/jpeg', quality);
+      }
+      compressLoop();
+    }
+  </script>
+</body>
+</html>
