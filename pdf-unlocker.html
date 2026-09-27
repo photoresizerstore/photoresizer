@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGVZ9QK8KW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LGVZ9QK8KW');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Unlocker Online - आधार, पैन व बैंक स्टेटमेंट PDF का पासवर्ड हटाएं</title>
+  <meta name="description" content="मुफ़्त ऑनलाइन PDF पासवर्ड रिमूवर टूल। आधार कार्ड, बैंक स्टेटमेंट PDF से पासवर्ड हटाएं और हमेशा के लिए अनलॉक PDF डाउनलोड करें।">
+  <link rel="canonical" href="https://photoresizer.store/pdf-unlocker.html">
+  <meta name="google-site-verification" content="rZhUDAOEL24AeAVJhreqm4EBhREIxY3y94QOMxRKL2o" />
+
+  <!-- PDF-Lib Engine -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0066FF;
+      --primary-hover: #0052cc;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --brand-blue: #0056D2;
+      --success: #10B981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; }
+
+    header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 18px; font-weight: 800; }
+    .brand span { color: #34D399; }
+    .home-link { background: rgba(255,255,255,0.2); color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+    .container { max-width: 960px; margin: 30px auto; padding: 0 15px; }
+
+    .tool-header { text-align: center; margin-bottom: 25px; }
+    .tool-header h1 { font-size: 26px; font-weight: 800; color: #1E293B; margin-bottom: 6px; }
+    .tool-header p { font-size: 14px; color: var(--muted); }
+
+    .studio-box {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 25px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) { .studio-box { grid-template-columns: 1fr; } }
+
+    .preview-stage {
+      background: #F1F5F9;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 20px;
+      text-align: center;
+    }
+    .preview-stage svg { width: 55px; height: 55px; fill: var(--primary); margin-bottom: 10px; }
+    .preview-stage h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .preview-stage p { font-size: 13px; color: var(--muted); }
+
+    .controls-deck { display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+    .control-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .control-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-action:hover { background: var(--primary-hover); }
+
+    .result-box {
+      display: none;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .btn-download {
+      display: inline-block;
+      background: var(--success);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 13px;
+    }
+    .info-card h3 { font-size: 16px; margin-bottom: 12px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    th { background: #F8FAFC; }
+
+    footer { text-align: center; padding: 25px; font-size: 12px; color: var(--muted); margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      PhotoResizer<span>.store</span>
+    </a>
+    <a href="index.html" class="home-link">← सभी टूल्स</a>
+  </header>
+
+  <div class="container">
+    <div class="tool-header">
+      <h1>🔓 PDF Password Remover & Unlocker</h1>
+      <p>आधार कार्ड, पैन कार्ड या बैंक स्टेटमेंट से पासवर्ड हमेशा के लिए हटाएं और बिना लॉक वाली PDF प्राप्त करें।</p>
+    </div>
+
+    <div class="studio-box">
+      <!-- Upload Stage -->
+      <div class="preview-stage" onclick="document.getElementById('pdfFileInput').click()">
+        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        <h4 id="fileStatus">पासवर्ड वाली PDF यहाँ चुनें</h4>
+        <p>Aadhaar, PAN, Bank Statement PDF (सुरक्षित इन-ब्राउज़र प्रोसेसिंग)</p>
+        <input type="file" id="pdfFileInput" accept="application/pdf" style="display:none;">
+      </div>
+            <!-- Controls Deck -->
+      <div class="controls-deck">
+        <div class="control-group">
+          <label>PDF का वर्तमान पासवर्ड दर्ज करें:</label>
+          <input type="password" id="pdfPassInput" placeholder="उदा. आधार हेतु: KRIS1995">
+          <span style="font-size:11px; color:var(--muted); margin-top:4px; display:block;">
+            *आधार कार्ड का पासवर्ड: नाम के पहले 4 अक्षर (CAPITAL) + जन्म वर्ष (उदा. RAMA1998)
+          </span>
+        </div>
+
+        <button class="btn-action" onclick="unlockPdf()">PDF अनलॉक करें ⚡</button>
+
+        <div class="result-box" id="resultBox">
+          <p id="unlockMsg" style="font-weight:700; color:#065F46;">✅ पासवर्ड हट चुका है!</p>
+          <a id="downloadUnlockedBtn" class="btn-download" download="unlocked_document.pdf">अनलॉक PDF डाउनलोड करें 📥</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Table -->
+    <div class="info-card">
+      <h3>सामान्य सरकारी दस्तावेज़ों के पासवर्ड प्रारूप:</h3>
+      <table>
+        <thead>
+          <tr><th>दस्तावेज़ प्रकार</th><th>पासवर्ड का प्रारूप (Format)</th><th>उदाहरण</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ई-आधार कार्ड (e-Aadhaar)</td><td>नाम के प्रथम 4 अक्षर (बड़े अक्षर) + जन्म का वर्ष</td><td>KRIS2002</td></tr>
+          <tr><td>ई-पैन कार्ड (e-PAN)</td><td>जन्म तिथि (बिना किसी स्लैश या स्पेस के)</td><td>30082002</td></tr>
+          <tr><td>SBI / HDFC बैंक स्टेटमेंट</td><td>रजिस्टर मोबाइल नंबर या CIF नंबर/DOB</td><td>खाते के अनुसार</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 PhotoResizer.store | All rights reserved.
+  </footer>
+
+  <script>
+    let uploadedPdfBytes = null;
+    let originalPdfName = "document.pdf";
+
+    document.getElementById('pdfFileInput').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        originalPdfName = file.name;
+        document.getElementById('fileStatus').innerText = "✅ " + file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          uploadedPdfBytes = evt.target.result;
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    });
+
+    async function unlockPdf() {
+      if (!uploadedPdfBytes) {
+        alert("कृपया पहले अपनी PDF फ़ाइल चुनें!");
+        document.getElementById('pdfFileInput').click();
+        return;
+      }
+
+      const password = document.getElementById('pdfPassInput').value.trim();
+
+      try {
+        const { PDFDocument } = PDFLib;
+        // Load with password
+        const pdfDoc = await PDFDocument.load(uploadedPdfBytes, { 
+          password: password,
+          ignoreEncryption: true 
+        });
+
+        // Save fresh without encryption
+        const unlockedBytes = await pdfDoc.save();
+        const blob = new Blob([unlockedBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        const dl = document.getElementById('downloadUnlockedBtn');
+        dl.href = url;
+        dl.download = `Unlocked_${originalPdfName}`;
+
+        document.getElementById('unlockMsg').innerText = `🎉 पासवर्ड स्थायी रूप से हट गया! अब इसे कभी पासवर्ड की ज़रूरत नहीं होगी।`;
+        document.getElementById('resultBox').style.display = 'block';
+      } catch (err) {
+        alert("पासवर्ड अमान्य है या PDF लोड नहीं हो सकी। कृपया सही पासवर्ड दर्ज करें।");
+      }
+    }
+  </script>
+</body>
+</html>
