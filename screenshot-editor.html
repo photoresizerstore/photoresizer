@@ -131,11 +131,11 @@
     .action-btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn-tool {
       flex: 1;
-      min-width: 100px;
+      min-width: 90px;
       background: #1E293B;
       color: #F8FAFC;
       border: 1px solid var(--border);
-      padding: 10px;
+      padding: 9px 8px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 700;
@@ -213,7 +213,7 @@
     <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
       <div>
         <h2 style="font-size:20px; font-weight:800;">✍️ Screenshot Pro Text & Number Editor</h2>
-        <p style="font-size:12px; color:var(--muted);">पुराने नंबर या स्पेलिंग को नेचुरल क्लोन से हटाएं और ड्रैगेबल टेक्स्ट से बदलें।</p>
+        <p style="font-size:12px; color:var(--muted);">Sejda टूल्स के साथ: टेक्स्ट बदलें, व्हाइटआउट करें, शेप्स बनाएं और ड्रॉ करें।</p>
       </div>
       <button class="btn-tool" onclick="document.getElementById('fileUpload').click()" style="background:var(--primary); padding:8px 18px;">
         📁 नया स्क्रीनशॉट चुनें
@@ -239,20 +239,31 @@
 
       <!-- Control Sidebar -->
       <div class="control-deck">
-        <!-- Step 1: Clone / Clean -->
+        
+        <!-- Step 1: Clean & Erase (Sejda Style Tools) -->
         <div class="card-panel">
-          <div class="panel-title">1️⃣ Clean Old Text (पुराना टेक्स्ट हटाएं)</div>
+          <div class="panel-title">1️⃣ Edit & Erase Tools (हटाएं या शेप बनाएं)</div>
           <div class="action-btn-row">
-            <button class="btn-tool active" id="btnCloneMode" onclick="setEditorMode('clean')">
-              🧹 Clean Box (ड्रैग करके मिटाएं)
+            <button class="btn-tool active" id="btnModeClean" onclick="setEditorMode('clean')">
+              🧹 Clean Box
+            </button>
+            <button class="btn-tool" id="btnModeWhiteout" onclick="setEditorMode('whiteout')">
+              ◻️ Whiteout
+            </button>
+            <button class="btn-tool" id="btnModeRect" onclick="setEditorMode('rect')">
+              🔲 Box Border
+            </button>
+            <button class="btn-tool" id="btnModeDraw" onclick="setEditorMode('draw')">
+              ✏️ Freehand Pen
             </button>
             <button class="btn-tool" onclick="undoClean()">↩ Undo</button>
           </div>
           <p style="font-size:11px; color:var(--muted); margin-top:8px;">
-            जिस पुराने नंबर/शब्द को हटाना है, उसके ऊपर छोटा बॉक्स बनाएं। बैकग्राउंड ऑटोमैटिक ब्लेंड हो जाएगा (व्हाइटनर नहीं दिखेगा)।
+            <b>Clean Box:</b> नेचुरल बैकग्राउंड मिटाता है | <b>Whiteout:</b> सीक्रेट डेटा छुपाता है | <b>Pen:</b> मार्क या साइन करें।
           </p>
         </div>
-                <!-- Step 2: Add New Replacement Text -->
+
+        <!-- Step 2: Add New Replacement Text -->
         <div class="card-panel">
           <div class="panel-title">2️⃣ Add New Text / Number (नया लिखें)</div>
           
@@ -278,7 +289,7 @@
 
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
             <div class="input-row">
-              <label>टेक्स्ट का रंग:</label>
+              <label>रंग (Text / Pen / Border):</label>
               <input type="color" id="textColorInput" value="#0F172A" onchange="updateFloatingText()">
             </div>
             <div class="input-row">
@@ -300,10 +311,11 @@
         </button>
 
         <div class="help-box">
-          <b>🎯 काम करने का आसान तरीका:</b><br>
-          1. <b>Clean Box:</b> पुराने नंबर पर बॉक्स बनाकर उसे गायब करें।<br>
-          2. <b>Drag:</b> नए नंबर को उंगली/माउस से खींचकर सही जगह पर सेट करें।<br>
-          3. <b>Apply:</b> सेट होने पर 'Apply' दबाएं और डाउनलोड करें!
+          <b>🎯 Sejda टूल्स गाइड:</b><br>
+          1. <b>Clean Box:</b> पुराने नंबर पर बॉक्स खींचें, बैकग्राउंड ब्लेंड हो जाएगा।<br>
+          2. <b>Whiteout / Box:</b> खींचकर वाइट पैच या बॉक्स बॉर्डर बनाएं।<br>
+          3. <b>Pen Tool:</b> फ्रीहैंड ड्रॉइंग या टिक मार्क लगाएं।<br>
+          4. <b>Drag & Apply:</b> टेक्स्ट सेट करके इमेज डाउनलोड करें!
         </div>
       </div>
     </div>
@@ -321,11 +333,12 @@
 
     let loadedImg = null;
     let fileName = "edited_screenshot.png";
-    let editorMode = 'clean'; // 'clean' or 'pick_color'
+    let editorMode = 'clean'; // 'clean', 'whiteout', 'rect', 'draw', 'pick_color'
 
     let isSelecting = false;
     let startX = 0, startY = 0;
     let undoHistory = [];
+    let snapshotBeforeDraw = null;
 
     // File Upload
     document.getElementById('fileUpload').addEventListener('change', function(e) {
@@ -354,7 +367,7 @@
     });
 
     function saveState() {
-      if (undoHistory.length >= 8) undoHistory.shift();
+      if (undoHistory.length >= 10) undoHistory.shift();
       undoHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     }
 
@@ -370,9 +383,20 @@
 
     function setEditorMode(mode) {
       editorMode = mode;
-      document.getElementById('btnCloneMode').classList.toggle('active', mode === 'clean');
+      
+      const buttons = ['btnModeClean', 'btnModeWhiteout', 'btnModeRect', 'btnModeDraw'];
+      buttons.forEach(btnId => {
+        const el = document.getElementById(btnId);
+        if (el) el.classList.remove('active');
+      });
+
+      if (mode === 'clean') document.getElementById('btnModeClean')?.classList.add('active');
+      if (mode === 'whiteout') document.getElementById('btnModeWhiteout')?.classList.add('active');
+      if (mode === 'rect') document.getElementById('btnModeRect')?.classList.add('active');
+      if (mode === 'draw') document.getElementById('btnModeDraw')?.classList.add('active');
+
       if (mode === 'pick_color') {
-        alert("स्क्रीनशॉट के किसी भी अक्षर पर क्लिक करें जिसका रंग आपको कॉपी करना है।");
+        alert("स्क्रीनशॉट के किसी भी हिस्से पर क्लिक करें जिसका रंग आपको कॉपी करना है।");
       }
     }
 
@@ -389,7 +413,7 @@
       };
     }
 
-    // Canvas Events for Inpainting / Color Pick
+    // Canvas Events
     canvas.addEventListener('mousedown', onPointerDown);
     canvas.addEventListener('mousemove', onPointerMove);
     window.addEventListener('mouseup', onPointerUp);
@@ -414,31 +438,80 @@
       isSelecting = true;
       startX = pos.x;
       startY = pos.y;
+
+      if (editorMode === 'draw') {
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        ctx.strokeStyle = document.getElementById('textColorInput').value;
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      } else {
+        snapshotBeforeDraw = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      }
     }
 
     let currentBox = null;
     function onPointerMove(e) {
-      if (!isSelecting || editorMode !== 'clean') return;
+      if (!isSelecting) return;
       e.preventDefault();
       const pos = getCanvasPos(e);
+
+      if (editorMode === 'draw') {
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        return;
+      }
+
       currentBox = {
         x: Math.min(startX, pos.x),
         y: Math.min(startY, pos.y),
         w: Math.abs(pos.x - startX),
         h: Math.abs(pos.y - startY)
       };
+
+      // Live shape preview
+      if (snapshotBeforeDraw && (editorMode === 'rect' || editorMode === 'whiteout')) {
+        ctx.putImageData(snapshotBeforeDraw, 0, 0);
+        if (editorMode === 'rect') {
+          ctx.strokeStyle = document.getElementById('textColorInput').value;
+          ctx.lineWidth = 3;
+          ctx.strokeRect(currentBox.x, currentBox.y, currentBox.w, currentBox.h);
+        } else if (editorMode === 'whiteout') {
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(currentBox.x, currentBox.y, currentBox.w, currentBox.h);
+        }
+      }
     }
 
     function onPointerUp() {
       if (!isSelecting) return;
       isSelecting = false;
+
+      if (editorMode === 'draw') {
+        saveState();
+        return;
+      }
+
       if (currentBox && currentBox.w > 4 && currentBox.h > 4) {
-        cleanBoxNatural(currentBox);
+        if (editorMode === 'clean') {
+          cleanBoxNatural(currentBox);
+        } else if (editorMode === 'whiteout') {
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(currentBox.x, currentBox.y, currentBox.w, currentBox.h);
+          saveState();
+        } else if (editorMode === 'rect') {
+          ctx.strokeStyle = document.getElementById('textColorInput').value;
+          ctx.lineWidth = 3;
+          ctx.strokeRect(currentBox.x, currentBox.y, currentBox.w, currentBox.h);
+          saveState();
+        }
       }
       currentBox = null;
+      snapshotBeforeDraw = null;
     }
 
-    // Natural Seamless Texture Patch (No Whitener)
+    // Natural Seamless Texture Patch
     function cleanBoxNatural(box) {
       const topY = Math.max(0, box.y - 2);
       const bottomY = Math.min(canvas.height - 1, box.y + box.h + 2);
@@ -456,14 +529,13 @@
       ctx.fillStyle = grad;
       ctx.fillRect(box.x, box.y, box.w, box.h);
 
-      // Smooth horizontal blend
       ctx.filter = 'blur(1px)';
       ctx.fillRect(box.x, box.y, box.w, box.h);
       ctx.filter = 'none';
 
       saveState();
 
-      // Automatically place the draggable text box near the erased area
+      // Automatically place draggable text near erased area
       const rect = canvas.getBoundingClientRect();
       const scaleX = rect.width / canvas.width;
       const scaleY = rect.height / canvas.height;
@@ -522,7 +594,7 @@
     window.addEventListener('mouseup', () => { isDraggingText = false; floatingLayer.classList.remove('active'); });
     window.addEventListener('touchend', () => { isDraggingText = false; floatingLayer.classList.remove('active'); });
 
-    // Bake & Lock Text onto the Canvas
+    // Bake & Lock Text onto Canvas
     function bakeTextToCanvas() {
       if (!loadedImg) return;
 
